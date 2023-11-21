@@ -29,7 +29,7 @@ const Konfigurator = () => {
                             <CardDescription>Card Description</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <WireThickness />
+
                         </CardContent>
                         <CardFooter>
                             <p>Card Footer</p>

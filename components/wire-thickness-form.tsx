@@ -22,18 +22,20 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
 
-const FormSchema = z.object({
-  drahtstaerke: z.enum(['6/5/6', '8/6/8'], {
-    required_error: "Bitte wählen Sie eine Drahtstärke aus.",
+
+
+const formSchema = z.object({
+  drahtstaerke: z.string().min(1, {
+    message: "Bitte wählen Sie eine Drahtstärke aus.",
   }),
 });
 
 export function WireThickness() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof formSchema>) {
     toast({
       title: "Sie haben folgende Werte eingereicht:",
       description: (

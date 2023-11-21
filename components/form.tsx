@@ -5,6 +5,22 @@ import { motion } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const FormSchema = z.object({
   height: z.enum(['830mm', '1230mm', '1830mm']),
@@ -27,59 +43,60 @@ const steps = [
   { id: 'Schritt 3', name: 'Abschluss' }
 ];
 
-export default function Form() {
-  const [previousStep, setPreviousStep] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
-  const delta = currentStep - previousStep;
+export default function FenceForm() {
+    const [previousStep, setPreviousStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(0);
+    const delta = currentStep - previousStep;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<Inputs>({
-    resolver: zodResolver(FormSchema)
-  });
+    const form = useForm<Inputs>({
+      resolver: zodResolver(FormSchema),
+      defaultValues: {
+        height: '830mm',
+        color: 'Grün',
+      }
+    });
 
-  const processForm: SubmitHandler<Inputs> = data => {
-    console.log(data);
-  };
+    const { control, handleSubmit, formState: { errors } } = form;
 
-  const next = async () => {
-    if (currentStep < steps.length - 1) {
-      setPreviousStep(currentStep);
-      setCurrentStep(step => step + 1);
-    }
-  };
+    const processForm: SubmitHandler<Inputs> = data => {
+      console.log(data);
+    };
 
-  const prev = () => {
-    if (currentStep > 0) {
-      setPreviousStep(currentStep);
-      setCurrentStep(step => step - 1);
-    }
-  };
+    const next = () => {
+      if (currentStep < steps.length - 1) {
+        setPreviousStep(currentStep);
+        setCurrentStep(step => step + 1);
+      }
+    };
+
+    const prev = () => {
+      if (currentStep > 0) {
+        setPreviousStep(currentStep);
+        setCurrentStep(step => step - 1);
+      }
+    };
 
   return (
     <section className='flex flex-col justify-between p-24'>
-      {/* Navigation steps */}
-      {/* Tutaj kod nawigacji kroków (taki sam jak w oryginalnym formularzu) */}
       <nav aria-label='Progress'>
-  <ol role='list' className='flex space-x-4 md:space-x-8'>
-    {steps.map((step, index) => (
-      <li key={step.name} className='flex-1'>
-        <div className={`flex items-center space-x-2 p-2 transition-all duration-300 ease-in-out ${currentStep >= index ? 'bg-sky-600 text-white shadow-lg' : 'bg-gray-200 text-gray-500'} rounded-lg`}>
-          <div className={`h-4 w-4 flex items-center justify-center rounded-full ${currentStep >= index ? 'bg-white text-sky-600' : 'bg-gray-300 text-gray-500'} shadow`}>
-            {index + 1}
-          </div>
-          <span className='text-sm font-medium'>
-            {step.name}
-          </span>
-        </div>
-      </li>
-    ))}
-  </ol>
-</nav>
-      {/* Form */}
-      <form className='mt-12 py-12' onSubmit={handleSubmit(processForm)}>
+        <ol role='list' className='flex space-x-4 md:space-x-8'>
+          {steps.map((step, index) => (
+            <li key={step.name} className='flex-1'>
+              <div className={`flex items-center space-x-2 p-2 transition-all duration-300 ease-in-out ${currentStep >= index ? 'bg-sky-600 text-white shadow-lg' : 'bg-gray-200 text-gray-500'} rounded-lg`}>
+                <div className={`h-4 w-4 flex items-center justify-center rounded-full ${currentStep >= index ? 'bg-white text-sky-600' : 'bg-gray-300 text-gray-500'} shadow`}>
+                  {index + 1}
+                </div>
+                <span className='text-sm font-medium'>
+                  {step.name}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <Form {...form} >
+      <form onSubmit={handleSubmit(processForm)} className="mt-12 py-12 space-y-8">
         {currentStep === 0 && (
           <motion.div
             initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
@@ -89,21 +106,28 @@ export default function Form() {
             <h2 className='text-base font-semibold leading-7 text-gray-900'>
               Höhenwahl
             </h2>
-            <div className='mt-10'>
-              <label htmlFor='height' className='block text-sm font-medium leading-6 text-gray-900'>
-                Höhe des Zauns
-              </label>
-              <select
-                id='height'
-                {...register('height')}
-                className='mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600'
-              >
-                <option value="830mm">830mm</option>
-                <option value="1230mm">1230mm</option>
-                <option value="1830mm">1830mm</option>
-              </select>
-              {errors.height && <p className='mt-2 text-sm text-red-400'>{errors.height.message}</p>}
-            </div>
+            <FormField
+              control={control}
+              name="height"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Höhe des Zauns</FormLabel>
+                  <FormControl>
+                    <Select {...field}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Wählen Sie eine Höhe" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="830mm">830mm</SelectItem>
+                        <SelectItem value="1230mm">1230mm</SelectItem>
+                        <SelectItem value="1830mm">1830mm</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  {errors.height && <FormMessage>{errors.height.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
           </motion.div>
         )}
 
@@ -116,21 +140,28 @@ export default function Form() {
             <h2 className='text-base font-semibold leading-7 text-gray-900'>
               Farbauswahl
             </h2>
-            <div className='mt-10'>
-              <label htmlFor='color' className='block text-sm font-medium leading-6 text-gray-900'>
-                Farbe des Zauns
-              </label>
-              <select
-                id='color'
-                {...register('color')}
-                className='mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-sky-600'
-              >
-                <option value="Grün">Grün</option>
-                <option value="Anthrazit">Anthrazit</option>
-                <option value="Schwarz">Schwarz</option>
-              </select>
-              {errors.color && <p className='mt-2 text-sm text-red-400'>{errors.color.message}</p>}
-            </div>
+            <FormField
+              control={control}
+              name="color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Farbe des Zauns</FormLabel>
+                  <FormControl>
+                    <Select {...field}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Wählen Sie eine Farbe" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Grün">Grün</SelectItem>
+                        <SelectItem value="Anthrazit">Anthrazit</SelectItem>
+                        <SelectItem value="Schwarz">Schwarz</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  {errors.color && <FormMessage>{errors.color.message}</FormMessage>}
+                </FormItem>
+              )}
+            />
           </motion.div>
         )}
 
@@ -146,14 +177,10 @@ export default function Form() {
             <p className='mt-1 text-sm leading-6 text-gray-600'>
               Vielen Dank für Ihre Angaben!
             </p>
-            <button type='submit' className='mt-4 rounded-md bg-sky-600 py-2 px-4 text-sm font-semibold text-white shadow-sm'>
-              Absenden
-            </button>
           </motion.div>
         )}
-      </form>
 
-      <div className='mt-8 pt-5'>
+<div className='mt-8 pt-5'>
   <div className='flex justify-between'>
     <button
       type='button'
@@ -199,6 +226,8 @@ export default function Form() {
     </button>
   </div>
 </div>
+</form>
+      </Form>
     </section>
   );
 }
