@@ -12,10 +12,6 @@ const FormCard = () => {
     return (
         <div className="mx-auto  w-1/2 p-4 ">
 <Card className="shadow-md">
-<CardHeader>
-    <CardTitle>Card Title</CardTitle>
-    <CardDescription>Card Description</CardDescription>
-</CardHeader>
 <CardContent>
     <Form />
 </CardContent>

@@ -1,12 +1,21 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const FormDataSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().min(1, 'Email is required').email('Invalid email address'),
-  country: z.string().min(1, 'Country is required'),
-  street: z.string().min(1, 'Street is required'),
-  city: z.string().min(1, 'City is required'),
-  state: z.string().min(1, 'State is required'),
-  zip: z.string().min(1, 'Zip is required')
-})
+  drahtstaerke: z.string().min(1, 'Bitte wählen Sie eine Drahtstärke aus'),
+  fenceSize: z.string().min(1, 'Bitte wählen Sie eine Größe aus'),
+  length: z.string().min(1, 'Bitte geben Sie eine Höhe an'),
+  color: z.string().min(1, 'Bitte wählen Sie eine Farbe aus'),
+  corners: z.string().min(1, 'Bitte geben Sie die Anzahl der Pfosten an'),
+  vorname: z.string().min(1, 'Bitte geben Sie einen Vornamen ein'),
+  nachname: z.string().min(1, 'Bitte geben Sie einen Nachnamen ein'),
+  email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein').min(1, 'Bitte geben Sie eine E-Mail-Adresse ein'),
+  emailConfirm: z.string().email('Bitte bestätigen Sie die E-Mail-Adresse').min(1, 'Bitte bestätigen Sie die E-Mail-Adresse'),
+  telefon: z.string().min(1, 'Bitte geben Sie eine Telefonnummer ein'),
+  postleitzahl: z.string().min(1, 'Bitte geben Sie eine Postleitzahl ein'),
+  stadt: z.string().min(1, 'Bitte geben Sie eine Stadt ein'),
+  anmerkungen: z.string().optional(), // Anmerkungen können optional sein
+  datenschutz: z.boolean().refine(val => val, 'Sie müssen der Datenschutzerklärung zustimmen')
+}).refine((data) => data.email === data.emailConfirm, {
+  path: ["emailConfirm"],
+  message: "Die E-Mail-Adressen stimmen nicht überein",
+});

@@ -6,12 +6,14 @@ import HeroBanner from '@/components/hero';
 import Navbar from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 
+
 const Home = () => {
   return (
     <>
       <Navbar />
       <HeroBanner />
       <FormCard />
+
 
 
     </>
