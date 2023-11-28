@@ -6,6 +6,7 @@ export const FormDataSchema = z.object({
   length: z.string().min(1, 'Bitte geben Sie eine Höhe an'),
   color: z.string().min(1, 'Bitte wählen Sie eine Farbe aus'),
   corners: z.string().min(1, 'Bitte geben Sie die Anzahl der Pfosten an'),
+  mounting: z.string().min(1, 'Bitte wählen Sie einen Montagetyp aus'),
   vorname: z.string().min(1, 'Bitte geben Sie einen Vornamen ein'),
   nachname: z.string().min(1, 'Bitte geben Sie einen Nachnamen ein'),
   email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein').min(1, 'Bitte geben Sie eine E-Mail-Adresse ein'),

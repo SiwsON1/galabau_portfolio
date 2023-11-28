@@ -31,6 +31,7 @@ import { ColorSelection } from "./wire-color";
 import { WireThickness5 } from "./colors";
 import { WireCorners } from "./wire-corners";
 import { UserForm } from "./user-form";
+import { WireMounting } from "./wire-mounting";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
@@ -69,6 +70,7 @@ export default function FenceForm() {
       fenceSize: 0.63,
       drahtstaerke: "",
       corners: "",
+      mounting: "",
       vorname: "",
       nachname: "",
       email: "",
@@ -213,7 +215,10 @@ export default function FenceForm() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <UserForm control={control} />
+              <div className="flex flex-col gap-y-10 items-center justify-center">
+              <WireMounting control={control} />
+              </div>
+
             </motion.div>
           )}
 
