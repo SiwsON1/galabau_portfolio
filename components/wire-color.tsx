@@ -14,7 +14,7 @@ export function ColorSelection({ control }: { control: any }) {
       name="color"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Farba</FormLabel>
+          <FormLabel>Farbe</FormLabel>
           <RadioGroup {...field} className="grid grid-cols-3 gap-4">
             <div>
               <RadioGroupItem value="feuerverzinkt" id="feuerverzinkt" className="peer sr-only" />

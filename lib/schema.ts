@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const FormDataSchema = z.object({
   drahtstaerke: z.string().min(1, 'Bitte wählen Sie eine Drahtstärke aus'),
-  fenceSize: z.string().min(1, 'Bitte wählen Sie eine Größe aus'),
+  fenceSize: z.number().min(0.63, 'Minimum size is 0.63m').max(2.03, 'Maximum size is 2.03m'),
   length: z.string().min(1, 'Bitte geben Sie eine Höhe an'),
   color: z.string().min(1, 'Bitte wählen Sie eine Farbe aus'),
   corners: z.string().min(1, 'Bitte geben Sie die Anzahl der Pfosten an'),

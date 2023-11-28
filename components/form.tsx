@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-
+import { Button } from "./ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -34,6 +34,12 @@ import { UserForm } from "./user-form";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
+type Step = {
+  id: string;
+  name: string;
+  fields?: string[];
+};
+
 const steps = [
   {
     id: "Schritt 1",
@@ -51,7 +57,7 @@ const steps = [
 export default function FenceForm() {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const delta = currentStep - previousStep;
 
@@ -60,7 +66,7 @@ export default function FenceForm() {
     defaultValues: {
       length: "",
       color: "",
-      fenceSize: "",
+      fenceSize: 0.63,
       drahtstaerke: "",
       corners: "",
       vorname: "",
@@ -81,6 +87,7 @@ export default function FenceForm() {
     control,
     handleSubmit,
     getValues,
+
     formState: { errors },
   } = form;
 
@@ -118,7 +125,7 @@ export default function FenceForm() {
   return (
     <section className="flex flex-col justify-between p-8">
       <nav aria-label="Progress">
-        <ol role="list" className="flex space-x-4 md:space-x-8">
+        <ol role="list" className="hidden md:flex space-x-4 md:space-x-8">
           {steps.map((step, index) => (
             <li key={step.name} className="flex-1">
               <div
@@ -142,6 +149,17 @@ export default function FenceForm() {
             </li>
           ))}
         </ol>
+          {/* Pokaż kropki na małych ekranach, ukryj na średnich i większych */}
+  <div className="md:hidden flex space-x-1 justify-center">
+    {steps.map((step, index) => (
+      <div
+        key={step.name}
+        className={`h-2 w-2 rounded-full ${
+          currentStep >= index ? "bg-sky-600" : "bg-gray-300"
+        }`}
+      ></div>
+    ))}
+  </div>
       </nav>
 
       <Form {...form}>
@@ -244,6 +262,11 @@ export default function FenceForm() {
                 </svg>
               </button>
             </div>
+          </div>
+          <div className="flex justify-end mt-4">
+            <Button type="submit" disabled={currentStep !== steps.length - 1}>
+              Submit
+            </Button>
           </div>
         </form>
       </Form>
