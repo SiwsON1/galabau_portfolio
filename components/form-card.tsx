@@ -11,7 +11,7 @@ import Form from "./form";
 const FormCard = () => {
     return (
         <div className="mx-auto  w-1/2 p-4 ">
-<Card className="shadow-md">
+<Card className="shadow-md ">
 <CardContent>
     <Form />
 </CardContent>

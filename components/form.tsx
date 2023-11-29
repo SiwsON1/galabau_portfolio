@@ -53,6 +53,7 @@ const steps = [
     fields: ["color"],
   },
   { id: "Schritt 3", name: "Abschluss" },
+  { id: "Schritt 4", name: "Use Client" },
 ];
 
 export default function FenceForm() {
@@ -133,15 +134,15 @@ export default function FenceForm() {
               <div
                 className={`flex items-center space-x-2 p-2 transition-all duration-300 ease-in-out ${
                   currentStep >= index
-                    ? "bg-sky-600 text-white shadow-lg"
-                    : "bg-gray-200 text-gray-500"
+                    ? "bg-blue1 text-white shadow-lg"
+                    : "bg-gray-200 text-anthracit1"
                 } rounded-lg`}
               >
                 <div
                   className={`h-4 w-4 flex items-center justify-center rounded-full ${
                     currentStep >= index
-                      ? "bg-white text-sky-600"
-                      : "bg-gray-300 text-gray-500"
+                      ? "bg-white text-blue1"
+                      : "bg-gray-300 text-anthracit1"
                   } shadow`}
                 >
                   {index + 1}
@@ -151,17 +152,17 @@ export default function FenceForm() {
             </li>
           ))}
         </ol>
-          {/* Pokaż kropki na małych ekranach, ukryj na średnich i większych */}
-  <div className="md:hidden flex space-x-1 justify-center">
-    {steps.map((step, index) => (
-      <div
-        key={step.name}
-        className={`h-2 w-2 rounded-full ${
-          currentStep >= index ? "bg-sky-600" : "bg-gray-300"
-        }`}
-      ></div>
-    ))}
-  </div>
+        {/* Pokaż kropki na małych ekranach, ukryj na średnich i większych */}
+        <div className="md:hidden flex space-x-1 justify-center">
+          {steps.map((step, index) => (
+            <div
+              key={step.name}
+              className={`h-2 w-2 rounded-full ${
+                currentStep >= index ? "bg-blue1" : "bg-gray-300"
+              }`}
+            ></div>
+          ))}
+        </div>
       </nav>
 
       <Form {...form}>
@@ -181,44 +182,45 @@ export default function FenceForm() {
               </div>
             </motion.div>
           )}
-
           {currentStep === 1 && (
-            <motion.div
-              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="flex items-center justify-center"
-            >
-              <div className="w-1/2">
-                <div className="relative mb-10 w-full h-auto">
-                  <Image
-                    src="/fenceSizes.webp" // Replace with the path to your image file
-                    alt="Fence with Dimensions"
-                    width={250} // The width of the image in pixels
-                    height={125} // The height of the image in pixels
-                    objectFit="contain"
-                  />
-                </div>
-              </div>
-              <div className="w-1/2">
-                <div className="flex flex-col gap-y-10 items-center justify-center">
-                  <WireLength control={control} />
-                  <WireSize control={control} />
-                  <WireCorners control={control} />
-                </div>
-              </div>
-            </motion.div>
-          )}
-          {currentStep === 2 && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <div className="flex flex-col gap-y-10 items-center justify-center">
-              <WireMounting control={control} />
+                <WireMounting control={control} />
               </div>
+            </motion.div>
+          )}
+          {currentStep === 2 && (
+  <motion.div
+    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+    animate={{ x: 0, opacity: 1 }}
+    transition={{ duration: 0.3, ease: "easeInOut" }}
+    className="flex flex-col items-center justify-center bg-center bg-cover relative"
+  >
+    {/* Kontener na WireSize i WireCorners */}
+    <div className="flex flex-col md:flex-row items-center justify-center gap-20 p-4">
+    <WireLength control={control} />
+      <WireCorners control={control} />
+    </div>
 
+    {/* WireLength pod WireSize i WireCorners */}
+    <div className="w-full p-4 mt-10">
+    <WireSize control={control} />
+
+    </div>
+  </motion.div>
+)}
+
+          {currentStep === 3 && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+              <UserForm control={control} />
             </motion.div>
           )}
 

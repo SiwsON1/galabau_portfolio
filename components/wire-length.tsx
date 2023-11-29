@@ -19,7 +19,7 @@ export function WireLength({ control }: { control: any }) {
         <FormItem>
           <FormLabel>Länge des Zauns (in Metern)</FormLabel>
           <FormControl>
-            <Input placeholder="2,5 m" {...field} />
+            <Input borderStyle="underline" focusColor="blue" placeholder="2,5 m" {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

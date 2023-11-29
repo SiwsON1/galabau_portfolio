@@ -11,11 +11,12 @@ const inputVariants = cva(
     variants: {
       borderStyle: {
         none: "border-none",
-        underline: "border-b border-input focus:outline-none", // border-input jest przykładową nazwą koloru, dostosuj ją do swojego projektu
+        underline: "border-b border-input focus:outline-none pl-10", // border-input jest przykładową nazwą koloru, dostosuj ją do swojego projektu
       },
       focusColor: {
         orange: "focus:border-orange-500",
         green: "focus:border-b-2 focus:border-green-500",
+        blue:"focus:border-b-2 focus:border-blue1",
 
         // Możesz dodać więcej wariantów kolorów jeśli potrzebujesz
       },

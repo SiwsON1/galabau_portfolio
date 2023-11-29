@@ -20,7 +20,7 @@ export function ColorSelection({ control }: { control: any }) {
               <RadioGroupItem value="feuerverzinkt" id="feuerverzinkt" className="peer sr-only" />
               <Label
                 htmlFor="feuerverzinkt"
-                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'feuerverzinkt' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary`}
+                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'feuerverzinkt' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1`}
               >
                 <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: '#D3D3D3' }}></div>
                 Feuerverzinkt
@@ -30,9 +30,9 @@ export function ColorSelection({ control }: { control: any }) {
               <RadioGroupItem value="RAL 6005 grün" id="RAL 6005 grün" className="peer sr-only" />
               <Label
                 htmlFor="RAL 6005 grün"
-                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'RAL 6005 grün' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary`}
+                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'RAL 6005 grün' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1`}
               >
-                <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: '#39603D' }}></div>
+                <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: 'blue1' }}></div>
                 RAL 6005 Grün
               </Label>
             </div>
@@ -40,7 +40,7 @@ export function ColorSelection({ control }: { control: any }) {
               <RadioGroupItem value="RAL 7016 anthrazit" id="RAL 7016 anthrazit" className="peer sr-only" />
               <Label
                 htmlFor="RAL 7016 anthrazit"
-                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'RAL 7016 anthrazit' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary`}
+                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'RAL 7016 anthrazit' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1`}
               >
                 <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: '#30393E' }}></div>
                 RAL 7016 Anthrazit

@@ -26,7 +26,7 @@ export function WireMounting({ control }: { control: any }) {
               field.onChange(value);
             }}
           >
-            <div className={`relative h-36 w-36 lg:w-48 border-2 border-gray-300 cursor-pointer ${selectedValue === "type1" ? "border-blue-500" : ""}`}>
+            <div className={`relative h-36 w-36 lg:w-48 border-2 rounded-md border-gray-300 cursor-pointer ${selectedValue === "type1" ? "border-blue1" : ""}`}>
               <RadioGroupItem
                 value="type1"
                 id="type1"
@@ -34,8 +34,8 @@ export function WireMounting({ control }: { control: any }) {
               />
               <label
                 htmlFor="type1"
-                className={`w-full h-full flex justify-center items-center ${
-                  selectedValue === "type1" ? "border-blue-500" : ""
+                className={`w-full h-full flex justify-center items-center cursor-pointer ${
+                  selectedValue === "type1" ? "border-blue1" : ""
                 }`}
                 style={{ position: "relative", overflow: "hidden" }}
               >
@@ -45,12 +45,13 @@ export function WireMounting({ control }: { control: any }) {
                   layout="fill"
                   objectFit="cover"
                 />
-                Pfostentyp 1
+                    <span className="absolute bottom-0 left-0 w-full text-center bg-white1 bg-opacity-75 py-1">Pfostentyp 1</span> {/* Pozycjonowanie absolutne dla tekstu */}
+
               </label>
             </div>
 
             {/* Skopiuj ten div poniżej dla pozostałych opcji */}
-            <div className={`relative h-36 w-36 lg:w-48 border-2 border-gray-300 cursor-pointer ${selectedValue === "type2" ? "border-blue-500" : ""}`}>
+            <div className={`relative h-36 w-36 lg:w-48 border-2 rounded-md  border-gray-300 cursor-pointer ${selectedValue === "type2" ? "border-blue1" : ""}`}>
               <RadioGroupItem
                 value="type2"
                 id="type2"
@@ -58,8 +59,8 @@ export function WireMounting({ control }: { control: any }) {
               />
               <label
                 htmlFor="type2"
-                className={`w-full h-full flex justify-center items-center ${
-                  selectedValue === "type2" ? "border-blue-500" : ""
+                className={`w-full h-full flex justify-center cursor-pointer items-center ${
+                  selectedValue === "type2" ? "border-blue1" : ""
                 }`}
                 style={{ position: "relative", overflow: "hidden" }}
               >
@@ -69,12 +70,12 @@ export function WireMounting({ control }: { control: any }) {
                   layout="fill"
                   objectFit="cover"
                 />
-                Pfostentyp 2
+                    <span className="absolute bottom-0 left-0 w-full text-center bg-white1 bg-opacity-75 py-1">Pfostentyp 2</span> {/* Pozycjonowanie absolutne dla tekstu */}
               </label>
             </div>
 
             {/* Skopiuj ten div poniżej dla pozostałych opcji */}
-            <div className={`relative h-36 w-36 lg:w-48 border-2 border-gray-300 cursor-pointer ${selectedValue === "type3" ? "border-blue-500" : ""}`}>
+            <div className={`relative h-36 w-36 lg:w-48 border-2 rounded-md border-gray-300 cursor-pointer ${selectedValue === "type3" ? "border-blue1" : ""}`}>
               <RadioGroupItem
                 value="type3"
                 id="type3"
@@ -82,8 +83,8 @@ export function WireMounting({ control }: { control: any }) {
               />
               <label
                 htmlFor="type3"
-                className={`w-full h-full flex justify-center items-center ${
-                  selectedValue === "type3" ? "border-blue-500" : ""
+                className={`w-full h-full flex justify-center cursor-pointer items-center ${
+                  selectedValue === "type3" ? "border-blue1" : ""
                 }`}
                 style={{ position: "relative", overflow: "hidden" }}
               >
@@ -93,12 +94,12 @@ export function WireMounting({ control }: { control: any }) {
                   layout="fill"
                   objectFit="cover"
                 />
-                Pfostentyp 3
+                    <span className="absolute bottom-0 left-0 w-full text-center bg-white1 bg-opacity-75 py-1">Pfostentyp 3</span> {/* Pozycjonowanie absolutne dla tekstu */}
               </label>
             </div>
 
             {/* Skopiuj ten div poniżej dla pozostałych opcji */}
-            <div className={`relative h-36 w-36 lg:w-48 border-2 border-gray-300 cursor-pointer ${selectedValue === "type4" ? "border-blue-500" : ""}`}>
+            <div className={`relative h-36 w-36 lg:w-48 border-2 rounded-md border-gray-300 cursor-pointer ${selectedValue === "type4" ? "border-blue1" : ""}`}>
               <RadioGroupItem
                 value="type4"
                 id="type4"
@@ -106,8 +107,8 @@ export function WireMounting({ control }: { control: any }) {
               />
               <label
                 htmlFor="type4"
-                className={`w-full h-full flex justify-center items-center ${
-                  selectedValue === "type4" ? "border-blue-500" : ""
+                className={`w-full h-full flex justify-center cursor-pointer items-center ${
+                  selectedValue === "type4" ? "border-blue1" : ""
                 }`}
                 style={{ position: "relative", overflow: "hidden" }}
               >
@@ -117,7 +118,7 @@ export function WireMounting({ control }: { control: any }) {
                   layout="fill"
                   objectFit="cover"
                 />
-                Pfostentyp 4
+                    <span className="absolute bottom-0 left-0 w-full text-center bg-white1 bg-opacity-75 py-1">Pfostentyp 4</span> {/* Pozycjonowanie absolutne dla tekstu */}
               </label>
             </div>
           </RadioGroup>

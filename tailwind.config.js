@@ -17,6 +17,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        anthracit1: '#30363D', // Dodajemy antracytowy
+        white1: '#FFFFFF', // Dodajemy biały
+        blue1: '#007BFF',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

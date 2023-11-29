@@ -17,7 +17,7 @@ export function WireCorners({ control }: { control: any }) {
         <FormItem>
           <FormLabel>Anzahl der Ecken</FormLabel>
           <FormControl>
-            <Input placeholder="0" {...field} />
+            <Input borderStyle="underline" focusColor="blue" placeholder="0" {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

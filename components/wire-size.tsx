@@ -14,13 +14,12 @@ export function WireSize({ control }: { control: any }) {
       control={control}
       name="fenceSize"
       render={({ field }) => {
-        // Ustawienie wartości suwaka bezpośrednio z wartości pola
         const sliderValue = field.value || 0.63;
 
         return (
           <FormItem>
             <FormLabel>Größe des Zauns (in Metern)</FormLabel>
-            <div style={{ marginBottom: '20px' }}>
+            <div className="mb-5"> {/* Zmiana stylu inline na klasę Tailwind */}
               <Slider
                 value={[sliderValue]}
                 max={2.03}
@@ -30,14 +29,17 @@ export function WireSize({ control }: { control: any }) {
                   field.onChange(value[0]);
                 }}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div className="flex justify-between">
                 <span>0.63m</span>
                 <span>2.03m</span>
               </div>
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
-                Aktuell: {sliderValue.toFixed(2)}m
+            <div className="text-center">
+              <span className="text-lg font-bold"> {/* Zmiana stylu inline na klasy Tailwind */}
+                Aktuell:
+                <span className="text-blue1"> {/* Dodatkowy span dla koloru liczby */}
+                  {sliderValue.toFixed(2)}
+                </span>m
               </span>
             </div>
             <FormMessage />
