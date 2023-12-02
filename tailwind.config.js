@@ -12,14 +12,23 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
+        "sm" :"640px",
+        "md" :"768px",
+        "lg" :"960px",
+        "lg" :"1200px",
         "2xl": "1400px",
       },
     },
     extend: {
       colors: {
-        anthracit1: '#30363D', // Dodajemy antracytowy
+        anthracit1: '#30363D',
+        lightcharcoal: '#505A5B',
+        mintgreen: '#98FF98',
+        steelblue:' #4A90E2',
         white1: '#FFFFFF', // Dodajemy biały
         blue1: '#007BFF',
+        softgreen:'#f3f9fb',
+        body: '#e5e5e5',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -28,6 +37,10 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+        },
+        grey: {
+          DEFAULT: "#888",
+          secondary: "#f8f8f8",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -74,6 +87,10 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+    backgroundImage:{
+      hero:'url(/bg4.png)',
+      hero2:'url(/bg3.webp)',
+    }
   },
   plugins: [require("tailwindcss-animate")],
 }
