@@ -10,18 +10,14 @@ import Form from "./form";
 
 const FormCard = () => {
     return (
-        <div className="mx-auto  w-1/2 p-4 ">
-<Card className="shadow-md ">
-<CardContent>
-    <Form />
-</CardContent>
-<CardFooter>
-    <p>Card Footer</p>
-</CardFooter>
-</Card>
+        <div className="mx-auto p-4 md:p-12 w-full">
+            <Card className="shadow-xl">
+                <CardContent>
+                    <Form />
+                </CardContent>
+            </Card>
         </div>
-
-      );
+    );
 }
 
 export default FormCard;

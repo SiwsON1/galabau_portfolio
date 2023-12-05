@@ -16,10 +16,20 @@ export function WireLength({ control }: { control: any }) {
       control={control}
       name="length"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Länge des Zauns (in Metern)</FormLabel>
-          <FormControl>
-            <Input borderStyle="underline" focusColor="blue" placeholder="2,5 m" {...field} />
+        <FormItem className="flex  flex-col w-full">
+          <FormLabel>
+            <h3 className="text-xl text-center text-anthracit1">
+            Länge des Zauns (in Metern)
+            </h3>
+          </FormLabel>
+          <FormControl className="flex-1">
+            <Input
+              borderStyle="underline"
+              focusColor="blue"
+              placeholder="2,5 m"
+              className="w-full"
+              {...field}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

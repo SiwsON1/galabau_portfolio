@@ -1,12 +1,18 @@
 import { useFormContext } from "react-hook-form";
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import { FormField, FormItem, FormLabel, FormMessage, FormControl } from "@/components/ui/form";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { RadioOption } from "./radioOption";
 
-export function ColorSelection({ control }: { control: any }) {
+export function WireMountingColor({ control }: { control: any }) {
   const { watch } = useFormContext();
-  const selectedColor = watch("color");
-  console.log("selectedColor:", selectedColor);
+  const selectedValue = watch("color");
+
+  const colorOptions = {
+    "feuerverzinkt": "#D3D3D3",
+    "RAL 6005 grün": "#39603D",
+    "RAL 7016 anthrazit": "#30393E",
+    // Dodaj więcej opcji kolorów, jeśli potrzebujesz
+  };
 
   return (
     <FormField
@@ -14,39 +20,32 @@ export function ColorSelection({ control }: { control: any }) {
       name="color"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Farbe</FormLabel>
-          <RadioGroup {...field} className="grid grid-cols-3 gap-4">
-            <div>
-              <RadioGroupItem value="feuerverzinkt" id="feuerverzinkt" className="peer sr-only" />
-              <Label
-                htmlFor="feuerverzinkt"
-                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'feuerverzinkt' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1`}
-              >
-                <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: '#D3D3D3' }}></div>
-                Feuerverzinkt
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem value="RAL 6005 grün" id="RAL 6005 grün" className="peer sr-only" />
-              <Label
-                htmlFor="RAL 6005 grün"
-                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'RAL 6005 grün' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1`}
-              >
-                <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: 'blue1' }}></div>
-                RAL 6005 Grün
-              </Label>
-            </div>
-            <div>
-              <RadioGroupItem value="RAL 7016 anthrazit" id="RAL 7016 anthrazit" className="peer sr-only" />
-              <Label
-                htmlFor="RAL 7016 anthrazit"
-                className={`flex flex-col items-center justify-center rounded-md border-2 p-4 ${selectedColor === 'RAL 7016 anthrazit' ? 'bg-accent text-accent-foreground' : 'hover:bg-accent hover:text-accent-foreground'} peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1`}
-              >
-                <div className="mb-3 h-12 w-12 rounded-full" style={{ backgroundColor: '#30393E' }}></div>
-                RAL 7016 Anthrazit
-              </Label>
-            </div>
-          </RadioGroup>
+          <FormLabel>
+            <h3 className="text-xl text-center text-anthracit1">
+              Die passende Farbe
+            </h3>
+          </FormLabel>
+          <FormControl>
+            <RadioGroup
+              {...field}
+              className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4 justify-center"
+              onValueChange={(value) => {
+                console.log("RadioGroup Value Changed:", value);
+                field.onChange(value);
+              }}
+            >
+              {Object.entries(colorOptions).map(([colorName, colorCode]) => (
+                <RadioOption
+                  key={colorName}
+                  value={colorName}
+                  label={colorName}
+                  selectedValue={selectedValue}
+                  colorCode={colorCode}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />

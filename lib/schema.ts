@@ -7,6 +7,8 @@ export const FormDataSchema = z.object({
   color: z.string().min(1, 'Bitte wählen Sie eine Farbe aus'),
   corners: z.string().min(1, 'Bitte geben Sie die Anzahl der Pfosten an'),
   mounting: z.string().min(1, 'Bitte wählen Sie einen Montagetyp aus'),
+  delivery: z.string().min(1, 'Bitte wählen Sie eine Lieferoption aus'), // Add delivery option
+  gate: z.string().min(1, 'Bitte wählen Sie einen Tor-Typ aus'), // Nowe pole do wyboru typu bramy
   vorname: z.string().min(1, 'Bitte geben Sie einen Vornamen ein'),
   nachname: z.string().min(1, 'Bitte geben Sie einen Nachnamen ein'),
   email: z.string().email('Bitte geben Sie eine gültige E-Mail-Adresse ein').min(1, 'Bitte geben Sie eine E-Mail-Adresse ein'),

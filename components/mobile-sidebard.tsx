@@ -15,7 +15,7 @@ export const MobileSidebar = () => {
         className="p-12  flex flex-col justify-between h-full bg-white"
       >
         <Sidebar />
-        <Socials / >
+        <Socials containerStyles="flex gap-x-3 text-steelblue" / >
       </SheetContent>
     </Sheet>
   );

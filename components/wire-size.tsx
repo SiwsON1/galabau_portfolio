@@ -18,7 +18,10 @@ export function WireSize({ control }: { control: any }) {
 
         return (
           <FormItem>
-            <FormLabel>Größe des Zauns (in Metern)</FormLabel>
+            <FormLabel>
+            <h3 className="text-xl text-center text-anthracit1">
+            Größe des Zauns (in Metern)            </h3>
+          </FormLabel>
             <div className="mb-5"> {/* Zmiana stylu inline na klasę Tailwind */}
               <Slider
                 value={[sliderValue]}

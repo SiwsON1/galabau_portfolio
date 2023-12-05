@@ -23,9 +23,11 @@ module.exports = {
       colors: {
         anthracit1: '#30363D',
         lightcharcoal: '#505A5B',
+        lightcharcoal1: '#70797A',
         mintgreen: '#98FF98',
         steelblue:' #4A90E2',
-        white1: '#FFFFFF', // Dodajemy biały
+        darksteelblue:' #4180C4',
+        white1: '#FFFFFF',
         blue1: '#007BFF',
         softgreen:'#f3f9fb',
         body: '#e5e5e5',
@@ -88,7 +90,7 @@ module.exports = {
       },
     },
     backgroundImage:{
-      hero:'url(/bg4.png)',
+      hero:'url(/bg6.png)',
       hero2:'url(/bg3.webp)',
     }
   },

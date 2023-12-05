@@ -11,7 +11,7 @@ const inputVariants = cva(
     variants: {
       borderStyle: {
         none: "border-none",
-        underline: "border-b border-input focus:outline-none pl-10", // border-input jest przykładową nazwą koloru, dostosuj ją do swojego projektu
+        underline: "border-b-2 border-input focus:outline-none pl-10", // Zwiększona grubość linii do 2px
       },
       focusColor: {
         orange: "focus:border-orange-500",

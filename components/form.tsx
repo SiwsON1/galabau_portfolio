@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldName } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -27,11 +27,14 @@ import { FormDataSchema } from "@/lib/schema";
 import { WireSize } from "./wire-size";
 import { WireLength } from "./wire-length";
 import { WireThickness1 } from "./wire-thicknes-form-3";
-import { ColorSelection } from "./wire-color";
 import { WireThickness5 } from "./colors";
 import { WireCorners } from "./wire-corners";
 import { UserForm } from "./user-form";
 import { WireMounting } from "./wire-mounting";
+import { ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
+import { WireMountingColor } from "./wire-color";
+import { DeliveryForm } from "./delivery-form";
+import { GateForm } from "./gate-form";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
@@ -45,15 +48,28 @@ const steps = [
   {
     id: "Schritt 1",
     name: "Drahtstärke",
-    fields: ["height"],
+    fields: ["drahtstaerke","color"],
   },
   {
     id: "Schritt 2",
-    name: "Farbauswahl",
-    fields: ["color"],
+    name: "Pfostentyp",
+    fields: ["mounting"],
   },
-  { id: "Schritt 3", name: "Abschluss" },
-  { id: "Schritt 4", name: "Use Client" },
+  { id: "Schritt 3",
+  name: "Maße",
+  fields: ["length","corners", "fenceSize"],
+ },
+  { id: "Schritt 4", name: "Lieferung",
+  fields: ["delivery"],
+
+ },
+  { id: "Schritt 5",
+  name: "Toranlage",
+  fields: ["gate"],
+},
+  { id: "Schritt 6", name: "Use Client",
+  fields: ["vorname", "nachname", "email", "emailConfirm", "telefon", "postleitzahl", "stadt", "anmerkungen", "datenschutz"],
+ },
 ];
 
 export default function FenceForm() {
@@ -72,6 +88,7 @@ export default function FenceForm() {
       drahtstaerke: "",
       corners: "",
       mounting: "",
+      gate: "",
       vorname: "",
       nachname: "",
       email: "",
@@ -81,6 +98,7 @@ export default function FenceForm() {
       stadt: "",
       anmerkungen: "",
       datenschutz: false,
+      delivery: "",
     },
   });
 
@@ -89,20 +107,35 @@ export default function FenceForm() {
   const {
     control,
     handleSubmit,
+    trigger,
     getValues,
-
+reset,
     formState: { errors },
   } = form;
 
   const processForm: SubmitHandler<Inputs> = (data) => {
     console.log("Form data:", data);
+    reset()
   };
 
-  const next = () => {
+type FieldName = keyof Inputs
+
+  const next = async () => {
     if (currentStep < steps.length - 1) {
       // Wyodrębnij aktywne pola dla bieżącego kroku
       const activeFields = steps[currentStep].fields || [];
+      const output = await trigger(activeFields as FieldName[], { shouldFocus: true });
 
+if(!output) return
+
+if(currentStep < steps.length -1){
+  if(currentStep === steps.length -4){
+    await handleSubmit(processForm)(
+
+    )
+    setCurrentStep(step => step +1)
+  }
+}
       // Typowanie zmiennej currentData
       let currentData: Partial<Inputs> = {};
 
@@ -128,30 +161,35 @@ export default function FenceForm() {
   return (
     <section className="flex flex-col justify-between p-8">
       <nav aria-label="Progress">
-        <ol role="list" className="hidden md:flex space-x-4 md:space-x-8">
-          {steps.map((step, index) => (
-            <li key={step.name} className="flex-1">
-              <div
-                className={`flex items-center space-x-2 p-2 transition-all duration-300 ease-in-out ${
-                  currentStep >= index
-                    ? "bg-blue1 text-white shadow-lg"
-                    : "bg-gray-200 text-anthracit1"
-                } rounded-lg`}
-              >
-                <div
-                  className={`h-4 w-4 flex items-center justify-center rounded-full ${
-                    currentStep >= index
-                      ? "bg-white text-blue1"
-                      : "bg-gray-300 text-anthracit1"
-                  } shadow`}
-                >
-                  {index + 1}
-                </div>
-                <span className="text-sm font-medium">{step.name}</span>
-              </div>
-            </li>
-          ))}
-        </ol>
+      <ol role="list" className="hidden md:flex items-center justify-center">
+  {steps.map((step, index) => (
+    <li key={step.name} className="flex items-center">
+      {/* Linia łącząca (dla wszystkich oprócz pierwszego kroku) */}
+      {index !== 0 && (
+        <div
+          className={`w-8 h-1 ${currentStep > index ? "bg-blue-500" : "bg-gray-300"}`}
+        ></div>
+      )}
+
+      {/* Element kroku */}
+      <div
+        className={`flex items-center ${index !== 0 ? 'ml-2' : ''} ${index !== steps.length - 1 ? 'mr-2' : ''} p-3 ${
+          currentStep >= index ? "bg-blue1 text-white shadow-lg" : "bg-gray-200 text-anthracit1"
+        } rounded-full cursor-pointer`}
+        onClick={() => {/* funkcja nawigacji do konkretnego kroku */}}
+      >
+        <div
+          className={`h-6 w-6 flex items-center justify-center rounded-full ${
+            currentStep >= index ? "bg-white text-blue1" : "bg-gray-300 text-anthracit1"
+          } shadow`}
+        >
+          {index + 1}
+        </div>
+        <span className="text-sm font-medium ml-2 hidden lg:inline">{step.name}</span>
+      </div>
+    </li>
+  ))}
+</ol>
         {/* Pokaż kropki na małych ekranach, ukryj na średnich i większych */}
         <div className="md:hidden flex space-x-1 justify-center">
           {steps.map((step, index) => (
@@ -168,7 +206,7 @@ export default function FenceForm() {
       <Form {...form}>
         <form
           onSubmit={handleSubmit(processForm)}
-          className="mt-12 py-12 space-y-8"
+          className="mt-12 py-8 space-y-8"
         >
           {currentStep === 0 && (
             <motion.div
@@ -178,7 +216,7 @@ export default function FenceForm() {
             >
               <div className="flex flex-col gap-y-10 items-center ">
                 <WireThickness1 control={control} />
-                <WireThickness5 control={control} />
+                <WireMountingColor control={control} />
               </div>
             </motion.div>
           )}
@@ -198,23 +236,45 @@ export default function FenceForm() {
     initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
     transition={{ duration: 0.3, ease: "easeInOut" }}
-    className="flex flex-col items-center justify-center bg-center bg-cover relative"
   >
     {/* Kontener na WireSize i WireCorners */}
-    <div className="flex flex-col md:flex-row items-center justify-center gap-20 p-4">
-    <WireLength control={control} />
+    <div className="flex flex-col items-center justify-center w-full gap-10 p-10">
+    <WireLength  control={control} />
       <WireCorners control={control} />
     </div>
 
     {/* WireLength pod WireSize i WireCorners */}
-    <div className="w-full p-4 mt-10">
+    <div className="w-full  p-10">
     <WireSize control={control} />
 
     </div>
   </motion.div>
 )}
+    {currentStep === 3 && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+                  <div className="flex flex-col items-center justify-center w-full  p-10">
 
-          {currentStep === 3 && (
+              <DeliveryForm control={control} />
+              </div>
+            </motion.div>
+          )}
+          {currentStep === 4 && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+                                <div className="flex flex-col items-center justify-center w-full  p-10">
+
+<GateForm control={control} />
+</div>
+            </motion.div>
+          )}
+          {currentStep === 5 && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -232,20 +292,7 @@ export default function FenceForm() {
                 disabled={currentStep === 0}
                 className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                  />
-                </svg>
+               <ArrowBigLeftDash />
               </button>
               <button
                 type="button"
@@ -253,20 +300,7 @@ export default function FenceForm() {
                 disabled={currentStep === steps.length - 1}
                 className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                  />
-                </svg>
+                <ArrowBigRightDash />
               </button>
             </div>
           </div>

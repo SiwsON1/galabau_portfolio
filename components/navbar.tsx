@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { MobileSidebar } from './mobile-sidebard';
+import { Button } from './ui/button';
 
 const Navbar = () => {
   const [navFixed, setNavFixed] = useState(false);
@@ -18,7 +19,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const textColorClass = navFixed ? "text-gray-700" : "text-white";
+  const textColorClass = navFixed ? "text-anthracit1" : "text-white";
 
   return (
     <div className={`w-full ${navFixed ? "bg-white shadow-md" : "bg-transparent"} fixed top-0 left-0 right-0 z-30 transition-all duration-300`}>

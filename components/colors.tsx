@@ -33,7 +33,7 @@ export function WireThickness5({ control }: { control: any }) {
               />
               <Label
                 htmlFor="feuerverzinkt"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:steelblue [&:has([data-state=checked])]:steelblue"
               >
                 <div
                   className="mb-3 h-12 w-12 rounded-full"
@@ -50,7 +50,7 @@ export function WireThickness5({ control }: { control: any }) {
               />
               <Label
                 htmlFor="RAL 6005 grün"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:steelblue [&:has([data-state=checked])]:steelblue"
               >
                 <div
                   className="mb-3 h-12 w-12 rounded-full"
@@ -67,7 +67,7 @@ export function WireThickness5({ control }: { control: any }) {
               />
               <Label
                 htmlFor="RAL 7016 anthrazit"
-                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-blue1 [&:has([data-state=checked])]:border-blue1"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:steelblue [&:has([data-state=checked])]:steelblue"
               >
                 <div
                   className="mb-3 h-12 w-12 rounded-full"
