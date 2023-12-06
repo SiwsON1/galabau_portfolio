@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { MobileSidebar } from './mobile-sidebard';
 import { Button } from './ui/button';
 
@@ -24,12 +25,20 @@ const Navbar = () => {
   return (
     <div className={`w-full ${navFixed ? "bg-white shadow-md" : "bg-transparent"} fixed top-0 left-0 right-0 z-30 transition-all duration-300`}>
       <nav className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-6">
-        <a href="#" className={`text-xl font-bold ${textColorClass}`}>Galabau Darius</a>
+        <span className={`text-xl font-bold ${textColorClass}`}>
+          <Link href="#">Galabau Darius</Link>
+        </span>
         <MobileSidebar />
         <div className="hidden md:flex items-center">
-          <a href="#gallery" className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>Gallery</a>
-          <a href="#orderForm" className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>Order Form</a>
-          <a href="#aboutUs" className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>About Us</a>
+          <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
+            <Link href="#gallery">Gallery</Link>
+          </span>
+          <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
+            <Link href="#konfigurator">Order Form</Link>
+          </span>
+          <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
+            <Link href="#aboutUs">About Us</Link>
+          </span>
         </div>
       </nav>
     </div>

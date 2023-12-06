@@ -1,10 +1,10 @@
 import { useFormContext } from "react-hook-form";
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { RadioOption } from "./radioOption";
 
 export function WireMounting({ control }: { control: any }) {
-  const { watch } = useFormContext();
+  const { watch, formState: { errors } } = useFormContext();
   const selectedValue = watch("mounting");
 
   const mountingOptions = {
@@ -21,25 +21,30 @@ export function WireMounting({ control }: { control: any }) {
       name="mounting"
       render={({ field }) => (
         <FormItem>
-          <FormLabel><h3 className="text-xl text-center text-anthracit1">Pfostentyp</h3></FormLabel>
-          <RadioGroup
-            {...field}
-            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 justify-center"
-            onValueChange={(value) => {
-              console.log("RadioGroup Value Changed:", value);
-              field.onChange(value);
-            }}
-          >
-            {Object.entries(mountingOptions).map(([value, { imageSrc, label }]) => (
-              <RadioOption
-                key={value}
-                value={value}
-                label={label}
-                selectedValue={selectedValue}
-                imageSrc={imageSrc}
-              />
-            ))}
-          </RadioGroup>
+          <FormLabel>
+            <h3 className="text-xl text-center text-anthracit1">Pfostentyp</h3>
+          </FormLabel>
+          <FormControl>
+            <RadioGroup
+              {...field}
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 justify-center"
+              onValueChange={(value) => {
+                console.log("RadioGroup Value Changed:", value);
+                field.onChange(value);
+              }}
+            >
+              {Object.entries(mountingOptions).map(([value, { imageSrc, label }]) => (
+                <RadioOption
+                  key={value}
+                  value={value}
+                  label={label}
+                  selectedValue={selectedValue}
+                  imageSrc={imageSrc}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />

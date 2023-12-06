@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -6,49 +7,46 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Slider } from "@/components/ui/slider";
+import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "@/components/ui/select";
 
 export function WireSize({ control }: { control: any }) {
+  const { watch } = useFormContext();
+  const selectedSize = watch("fenceSize");
+
   return (
     <FormField
       control={control}
       name="fenceSize"
-      render={({ field }) => {
-        const sliderValue = field.value || 0.63;
-
-        return (
-          <FormItem>
-            <FormLabel>
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">
-            Größe des Zauns (in Metern)            </h3>
+              Größe des Zauns (in Metern)
+            </h3>
           </FormLabel>
-            <div className="mb-5"> {/* Zmiana stylu inline na klasę Tailwind */}
-              <Slider
-                value={[sliderValue]}
-                max={2.03}
-                min={0.63}
-                step={0.2}
-                onValueChange={(value) => {
-                  field.onChange(value[0]);
-                }}
-              />
-              <div className="flex justify-between">
-                <span>0.63m</span>
-                <span>2.03m</span>
-              </div>
-            </div>
-            <div className="text-center">
-              <span className="text-lg font-bold"> {/* Zmiana stylu inline na klasy Tailwind */}
-                Aktuell:
-                <span className="text-blue1"> {/* Dodatkowy span dla koloru liczby */}
-                  {sliderValue.toFixed(2)}
-                </span>m
-              </span>
-            </div>
-            <FormMessage />
-          </FormItem>
-        );
-      }}
+          <FormControl>
+            <Select
+              onValueChange={field.onChange}
+              value={selectedSize}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Wählen Sie die Größe" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0.63">0.63m</SelectItem>
+                <SelectItem value="0.83">0.83m</SelectItem>
+                <SelectItem value="1.03">1.03m</SelectItem>
+                <SelectItem value="1.23">1.23m</SelectItem>
+                <SelectItem value="1.43">1.43m</SelectItem>
+                <SelectItem value="1.63">1.63m</SelectItem>
+                <SelectItem value="1.83">1.83m</SelectItem>
+                <SelectItem value="2.03">2.03m</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
     />
   );
 }

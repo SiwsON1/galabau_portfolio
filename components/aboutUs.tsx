@@ -15,7 +15,7 @@ const AboutUs = () => {
     threshold: !isMobile ? 0.5 : undefined,
   });
   return (
-    <section className="py-12 xl:pt-0 xl:pb-24" ref={ref}>
+    <section id="aboutUs" className="py-12 xl:pt-0 xl:pb-24" ref={ref}>
       <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row">
           <motion.div

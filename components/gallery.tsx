@@ -6,7 +6,7 @@ import { fadeIn } from '@/variants';
 
 const Gallery = () => {
   return (
-    <section >
+    <section id="gallery">
       <div className="p-5 md:p-10">
         <motion.div
             variants={fadeIn('down', 0.2)}
@@ -27,7 +27,6 @@ const Gallery = () => {
                 alt={`Gallery image ${i + 1}`}
                 width={500}
                 height={300}
-                layout="responsive"
               />
             </div>
           ))}

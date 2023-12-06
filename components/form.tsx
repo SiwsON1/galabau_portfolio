@@ -84,7 +84,7 @@ export default function FenceForm() {
     defaultValues: {
       length: "",
       color: "",
-      fenceSize: 0.63,
+      fenceSize: "",
       drahtstaerke: "",
       corners: "",
       mounting: "",
@@ -286,22 +286,26 @@ if(currentStep < steps.length -1){
 
           <div className="mt-8 pt-5">
             <div className="flex justify-between">
-              <button
-                type="button"
-                onClick={prev}
-                disabled={currentStep === 0}
-                className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-               <ArrowBigLeftDash />
-              </button>
-              <button
-                type="button"
-                onClick={next}
-                disabled={currentStep === steps.length - 1}
-                className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <ArrowBigRightDash />
-              </button>
+
+
+            <button
+  type="button"
+  onClick={prev}
+  disabled={currentStep === 0}
+    className="rounded-lg h-11 px-8 py-2 bg-steelblue text-white font-semibold shadow-sm  hover:bg-darksteelblue disabled:cursor-not-allowed disabled:opacity-50"
+>
+  <ArrowBigLeftDash />
+</button>
+
+<button
+  type="button"
+  onClick={next}
+  disabled={currentStep === steps.length - 1}
+  className="rounded-lg h-11 px-8 py-2 bg-steelblue text-white font-semibold shadow-sm ring-1   hover:bg-darksteelblue disabled:cursor-not-allowed disabled:opacity-50"
+>
+  <ArrowBigRightDash />
+</button>
+
             </div>
           </div>
           <div className="flex justify-end mt-4">
