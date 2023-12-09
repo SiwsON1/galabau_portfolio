@@ -258,7 +258,7 @@ if(currentStep < steps.length -1){
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-                                <div className="flex flex-col items-center justify-center w-full  p-10">
+                                <div className="flex flex-col items-center justify-center w-full  p-10 mx-auto">
 
 <GateForm control={control} />
 </div>
@@ -271,7 +271,7 @@ if(currentStep < steps.length -1){
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-                  <div className="flex flex-col items-center justify-center w-full  p-10">
+                  <div className="flex flex-col items-center justify-center w-full  p-10 mx-auto">
 
               <DeliveryForm control={control} />
               </div>
