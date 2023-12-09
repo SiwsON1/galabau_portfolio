@@ -6,6 +6,7 @@ import { fadeIn } from "@/variants";
 import { useInView } from "react-intersection-observer";
 import { Button } from "./ui/button";
 import { useMediaQuery } from "react-responsive";
+import Link from "next/link";
 
 const AboutUs = () => {
   const isMobile = useMediaQuery({
@@ -56,8 +57,9 @@ const AboutUs = () => {
             <p className="mb-10 ">Die Zufriedenheit meiner Kunden liegt mir am Herzen. Deshalb lege ich großen Wert auf persönliche Beratung und individuelle Betreuung. Ich stehe Ihnen von Montag bis Freitag von 8 bis 18 Uhr zur Verfügung, um Ihre Fragen zu beantworten oder eine Bestellung aufzunehmen.
 
 Kontaktieren Sie mich gerne unter +49 1573 6978719 für eine Beratung oder um mehr über meine Dienstleistungen zu erfahren. Ich freue mich darauf, Sie bei Ihrem nächsten Zaun- oder Erdarbeitsprojekt unterstützen zu dürfen!</p>
-            <Button size="lg" variant='blue'>Weitere Informationen</Button>
-
+            <Link href="https://www.facebook.com/profile.php?id=61553627408575">
+      <Button size="oval" variant="blue">Weitere Informationen</Button>
+      </Link>
           </motion.div>
         </div>
       </div>

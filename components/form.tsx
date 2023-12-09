@@ -59,13 +59,13 @@ const steps = [
   name: "Maße",
   fields: ["length","corners", "fenceSize"],
  },
-  { id: "Schritt 4", name: "Lieferung",
-  fields: ["delivery"],
+  { id: "Schritt 4", name: "Toranlage",
+  fields: ["gate"],
 
  },
   { id: "Schritt 5",
-  name: "Toranlage",
-  fields: ["gate"],
+  name: "Lieferung",
+  fields: ["delivery"],
 },
   { id: "Schritt 6", name: "Use Client",
   fields: ["vorname", "nachname", "email", "emailConfirm", "telefon", "postleitzahl", "stadt", "anmerkungen", "datenschutz"],
@@ -231,7 +231,7 @@ if(currentStep < steps.length -1){
               </div>
             </motion.div>
           )}
-          {currentStep === 2 && (
+{currentStep === 2 && (
   <motion.div
     initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
@@ -239,30 +239,20 @@ if(currentStep < steps.length -1){
   >
     {/* Kontener na WireSize i WireCorners */}
     <div className="flex flex-col items-center justify-center w-full gap-10 p-10">
-    <WireLength  control={control} />
-      <WireCorners control={control} />
+      <div className="w-full md:w-3/4 lg:w-1/4 mx-auto">
+        <WireLength control={control} />
+        <WireCorners control={control} />
+      </div>
     </div>
 
     {/* WireLength pod WireSize i WireCorners */}
-    <div className="w-full  p-10">
-    <WireSize control={control} />
-
+    <div className="w-full md:w-3/4 lg:w-1/4 mx-auto p-10">
+      <WireSize control={control} />
     </div>
   </motion.div>
 )}
-    {currentStep === 3 && (
-            <motion.div
-              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-                  <div className="flex flex-col items-center justify-center w-full  p-10">
 
-              <DeliveryForm control={control} />
-              </div>
-            </motion.div>
-          )}
-          {currentStep === 4 && (
+          {currentStep === 3 && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -274,6 +264,20 @@ if(currentStep < steps.length -1){
 </div>
             </motion.div>
           )}
+
+{currentStep === 4 && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+                  <div className="flex flex-col items-center justify-center w-full  p-10">
+
+              <DeliveryForm control={control} />
+              </div>
+            </motion.div>
+          )}
+
           {currentStep === 5 && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}

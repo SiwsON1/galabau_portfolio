@@ -23,9 +23,15 @@ const Navbar = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const href = e.currentTarget.getAttribute('href');
-    const targetSection = href ? document.querySelector(href) : null;
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: 'smooth' });
+
+    // Sprawdzanie, czy href to "#", co wskazuje na początek strony
+    if (href === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const targetSection = href ? document.querySelector(href) : null;
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
