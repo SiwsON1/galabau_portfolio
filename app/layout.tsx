@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  modal?: React.ReactNode; // Dodanie propa modal jako opcjonalnego
+  modal: React.ReactNode; // Dodanie propa modal jako opcjonalnego
 }
 
 export default function RootLayout({
