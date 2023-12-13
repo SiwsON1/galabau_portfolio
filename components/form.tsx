@@ -35,6 +35,8 @@ import { ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
 import { WireMountingColor } from "./wire-color";
 import { DeliveryForm } from "./delivery-form";
 import { GateForm } from "./gate-form";
+import { useEffect } from "react";
+import { OrderSummary } from "./order-summary";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
@@ -58,8 +60,9 @@ const steps = [
   { id: "Schritt 3", name: "Maße", fields: ["length", "corners", "fenceSize"] },
   { id: "Schritt 4", name: "Toranlage", fields: ["gate"] },
   { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
+  { id: "Schritt 6", name: "Confirmation"},
   {
-    id: "Schritt 6",
+    id: "Schritt 7",
     name: "Use Client",
     fields: [
       "vorname",
@@ -79,6 +82,62 @@ export default function FenceForm() {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [price, setPrice] = useState(0);
+
+
+  type PriceList = {
+    [key: string]: { [key: string]: number[] }
+  };
+
+  const prices: PriceList = {
+    '6-5-6': {
+      'RAL 6005 grün': [34, 31, 29, 27, 25, 23],
+      'RAL 7016 anthrazit': [34, 31, 29, 27, 25, 23],
+      'feuerverzinkt': [39, 36, 34, 31, 30, 24]
+    },
+    '8-6-8': {
+      'RAL 6005 grün': [51, 46, 43, 39, 36, 32],
+      'RAL 7016 anthrazit': [51, 46, 43, 39, 36, 32],
+      // Inne kolory i typy, jeśli są dostępne
+    }
+  };
+
+  const calculatePrice = () => {
+    console.log('Funkcja calculatePrice została wywołana');
+    const formData = getValues();
+    console.log("Dane formularza:", formData);
+
+    let basePrice = 0;
+
+    // Wysokości ogrodzenia dla indeksowania cen
+    const heights = ["2.03", "1.83", "1.63", "1.43", "1.23", "1.03"];
+
+    const drahtstaerkePrices = prices[formData.drahtstaerke];
+    console.log("Ceny dla drahtstaerke:", drahtstaerkePrices);
+
+    const colorPrices = drahtstaerkePrices ? drahtstaerkePrices[formData.color] : null;
+    console.log("Ceny dla koloru:", colorPrices);
+
+    if (colorPrices) {
+        const heightIndex = heights.indexOf(formData.fenceSize);
+        console.log("Indeks wysokości:", heightIndex);
+
+        if (heightIndex !== -1) {
+            basePrice = colorPrices[heightIndex];
+        }
+    }
+    console.log('Obliczona cena bazowa:', basePrice);
+    console.log('Wartość fenceSize:', formData.fenceSize);
+
+    // Oblicz łączną cenę na podstawie długości
+    const totalPrice = basePrice * parseFloat(formData.length);
+    console.log('Łączna cena:', totalPrice);
+
+    setPrice(totalPrice);
+};
+
+
+
 
   const delta = currentStep - previousStep;
 
@@ -112,6 +171,8 @@ export default function FenceForm() {
     handleSubmit,
     trigger,
     getValues,
+    setValue,
+    watch,
     reset,
     formState: { errors },
   } = form;
@@ -120,6 +181,16 @@ export default function FenceForm() {
     console.log("Form data:", data);
     reset();
   };
+  const drahtstaerke = watch('drahtstaerke');
+  const color = watch('color');
+  const length = watch('length');
+  const corners = watch('corners');
+  const fenceSize = watch('fenceSize');
+
+  useEffect(() => {
+    // Wywołanie funkcji calculatePrice kiedykolwiek zmieniają się obserwowane wartości
+    calculatePrice();
+  }, [drahtstaerke, color, length, corners, fenceSize]); // Dodaj zmienne jako zależności
 
   type FieldName = keyof Inputs;
 
@@ -160,6 +231,7 @@ export default function FenceForm() {
       setCurrentStep((step) => step - 1);
     }
   };
+
 
   return (
     <section className="flex flex-col justify-between p-8">
@@ -290,8 +362,18 @@ export default function FenceForm() {
               </div>
             </motion.div>
           )}
-
           {currentStep === 5 && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+                              <OrderSummary price={price} formData={getValues()} />
+
+            </motion.div>
+          )}
+
+          {currentStep === 6 && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
