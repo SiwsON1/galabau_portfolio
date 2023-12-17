@@ -5,6 +5,7 @@ import { Roboto } from "next/font/google";
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { ToastProvider } from '@/components/providers/toaster-provider';
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
           </div>
           <main className="flex justify-center overflow-hidden ">
             <div className="max-w-[1440px] bg-white w-full">
+              <ToastProvider />
               {children}
               {modal && modal} {/* Renderowanie modala, jeśli istnieje */}
             </div>

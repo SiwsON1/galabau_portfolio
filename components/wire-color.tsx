@@ -8,7 +8,7 @@ export function WireMountingColor({ control }: { control: any }) {
   const selectedValue = watch("color");
 
   const colorOptions = {
-    "feuerverzinkt": "#D3D3D3",
+    "Feuerverzinkt": "#D3D3D3",
     "RAL 6005 grün": "#39603D",
     "RAL 7016 anthrazit": "#30393E",
     // Dodaj więcej opcji kolorów, jeśli potrzebujesz

@@ -12,21 +12,24 @@ generator client {
 }
 
 model Drahtstaerke {
-  id      String   @id @default(uuid())
-  name    String   // "6/5/6" lub "8/6/8"
-  prices  Price[]
+  id        String      @id @default(uuid())
+  name      String      // "6/5/6" lub "8/6/8"
+  prices    Price[]
+  orderItems OrderItem[] // Dodane pole relacji
 }
 
 model FenceSize {
-  id      String   @id @default(uuid())
-  name    String   // np. "0.63", "0.83", "1.03" itd.
-  prices  Price[]
+  id        String      @id @default(uuid())
+  name      String      // np. "0.63", "0.83", "1.03" itd.
+  prices    Price[]
+  orderItems OrderItem[] // Dodane pole relacji
 }
 
 model Color {
-  id      String   @id @default(uuid())
-  name    String   // Kolor, np. "zielony", "antrazyt", "ocynk"
-  prices  Price[]
+  id        String      @id @default(uuid())
+  name      String      // Kolor, np. "zielony", "antrazyt", "ocynk"
+  prices    Price[]
+  orderItems OrderItem[] // Dodane pole relacji
 }
 
 
@@ -34,7 +37,7 @@ model Customer {
   id            String   @id @default(uuid())
   vorname       String
   nachname      String
-  email         String
+  email         String   @unique
   telefon       String
   postleitzahl  String
   stadt         String
@@ -52,22 +55,37 @@ model Price {
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
   fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])
   color          Color        @relation(fields: [colorId], references: [id])
-  orders         Order[]      // Dodane pole relacji do modelu Order
 
   @@index([drahtstaerkeId])
   @@index([fenceSizeId])
   @@index([colorId])
 }
 
+model OrderItem {
+  id             String       @id @default(uuid())
+  orderId        String
+  drahtstaerkeId String
+  fenceSizeId    String
+  colorId        String
+  totalPrice     Float        // całkowita cena
+  order          Order        @relation(fields: [orderId], references: [id])
+  drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
+  fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])
+  color          Color        @relation(fields: [colorId], references: [id])
+
+  @@index([orderId])
+  @@index([drahtstaerkeId])
+  @@index([fenceSizeId])
+  @@index([colorId])
+}
+
 model Order {
-  id            String   @id @default(uuid())
-  customerId    String
-  priceId       String
-  customer      Customer @relation(fields: [customerId], references: [id])
-  price         Price    @relation(fields: [priceId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String      @id @default(uuid())
+  customerId  String
+  items       OrderItem[]
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@index([customerId])
-  @@index([priceId])
 }
