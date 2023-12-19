@@ -7,6 +7,7 @@ import HeroBanner from "@/components/hero";
 import Navbar from "@/components/navbar";
 import { getPrices } from "@/actions/get-prices";
 import { GetStaticProps } from 'next';
+import { UserButton } from "@clerk/nextjs";
 
 // Import ExtendedPrice
 import { ExtendedPrice } from "@/actions/get-prices";

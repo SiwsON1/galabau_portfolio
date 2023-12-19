@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 // import Link from 'next/link'; // Usuń tę linijkę, ponieważ nie będziesz używać komponentu Link
 import { MobileSidebar } from './mobile-sidebard';
 import { Button } from './ui/button';
+import { UserButton } from "@clerk/nextjs";
+
 
 const Navbar = () => {
   const [navFixed, setNavFixed] = useState(false);
@@ -54,6 +56,8 @@ const Navbar = () => {
           <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
             <a href="#aboutUs" onClick={handleNavClick}>About Us</a>
           </span>
+          <UserButton afterSignOutUrl="/"/>
+
         </div>
       </nav>
     </div>

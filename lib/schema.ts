@@ -14,8 +14,8 @@ export const FormDataSchema = z
       .min(1, "Bitte geben Sie die Anzahl der Pfosten an")
       .regex(/^\d+$/, "Bitte geben Sie eine ganze Zahl ein"),
     mounting: z.string().min(1, "Bitte wählen Sie einen Montagetyp aus"),
-    delivery: z.string().min(1, "Bitte wählen Sie eine Lieferoption aus"), // Add delivery option
-    gate: z.string().min(1, "Bitte wählen Sie einen Tor-Typ aus"), // Nowe pole do wyboru typu bramy
+    delivery: z.string().min(1, "Bitte wählen Sie eine Lieferoption aus"), 
+    gate: z.string().min(1, "Bitte wählen Sie einen Tor-Typ aus"),
     vorname: z.string().min(1, "Bitte geben Sie einen Vornamen ein"),
     nachname: z.string().min(1, "Bitte geben Sie einen Nachnamen ein"),
     email: z

@@ -15,7 +15,9 @@ model Drahtstaerke {
   id        String      @id @default(uuid())
   name      String      // "6/5/6" lub "8/6/8"
   prices    Price[]
-  orderItems OrderItem[] // Dodane pole relacji
+  orderItems OrderItem[] // Dodane pole relacjia
+  createdAt   DateTime  @default(now())
+updatedAt DateTime @default(now()) @updatedAt
 }
 
 model FenceSize {
@@ -23,6 +25,8 @@ model FenceSize {
   name      String      // np. "0.63", "0.83", "1.03" itd.
   prices    Price[]
   orderItems OrderItem[] // Dodane pole relacji
+  createdAt   DateTime  @default(now())
+updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Color {
@@ -30,6 +34,9 @@ model Color {
   name      String      // Kolor, np. "zielony", "antrazyt", "ocynk"
   prices    Price[]
   orderItems OrderItem[] // Dodane pole relacji
+  createdAt   DateTime  @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
 }
 
 
@@ -43,6 +50,9 @@ model Customer {
   stadt         String
   anmerkungen   String?
   orders        Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
 }
 
 model Price {
@@ -55,6 +65,9 @@ model Price {
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
   fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])
   color          Color        @relation(fields: [colorId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
 
   @@index([drahtstaerkeId])
   @@index([fenceSizeId])
@@ -72,6 +85,9 @@ model OrderItem {
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
   fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])
   color          Color        @relation(fields: [colorId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
 
   @@index([orderId])
   @@index([drahtstaerkeId])
@@ -79,13 +95,20 @@ model OrderItem {
   @@index([colorId])
 }
 
+enum OrderStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+}
+
 model Order {
   id          String      @id @default(uuid())
   customerId  String
   items       OrderItem[]
   customer    Customer    @relation(fields: [customerId], references: [id])
+    status     OrderStatus @default(NEW)
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@index([customerId])
 }
