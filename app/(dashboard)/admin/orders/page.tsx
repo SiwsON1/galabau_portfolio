@@ -17,8 +17,11 @@ export default async function Page() {
   return (
     <section className='py-22'>
 <div className='container'>
-<h1 className='text-4xl font-bold'> All Orders</h1>
+<h1 className='text-4xl font-bold mt-5'> All Orders</h1>
+<div className="flex-1 p-8 pt-6">
 <DataTable columns={orderColumns} data={data} />
+</div>
+
 </div>
     </section>
 

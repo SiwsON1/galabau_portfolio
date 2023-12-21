@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown, Circle, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from "@/components/ui/badge";
+import toast from "react-hot-toast";
+import {  useRouter } from "next/navigation";
 
 import {
   DropdownMenu,
@@ -14,6 +16,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Drahtstaerke, FenceSize, Color,  } from '@prisma/client';
+import CellActions from "./cell-action";
 
 const statusIcons = {
     NEW: Circle,
@@ -45,8 +48,11 @@ export type OrderItem = {
   totalPrice: number;
 };
 
+
+
 // Kolumny dla tabeli zamówień
 export const orderColumns: ColumnDef<Order>[] = [
+
     {
         accessorKey: "status",
         header: ({ column }) => {
@@ -76,20 +82,16 @@ export const orderColumns: ColumnDef<Order>[] = [
           return row.getValue(columnId) === filterValue;
         },
       },
-  {
-    accessorKey: "customer.vorname",
-    id: "customerFirstName",
-    header: "First Name",
-  },
+
   {
     accessorKey: "customer.nachname",
     id: "customerLastName",
-    header: "Last Name",
+    header: "Nachname",
   },
   {
     accessorKey: "customer.stadt",
     id: "customerCity",
-    header: "City",
+    header: "Stadt",
   },
 
   {
@@ -117,29 +119,7 @@ export const orderColumns: ColumnDef<Order>[] = [
     header: "Total Price",
   },
   {
-    id: 'actions',
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(row.original.id)}
-            >
-              Copy order ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View order details</DropdownMenuItem>
-            <DropdownMenuItem>Change status</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    }
-  }
+    id: "actions",
+    cell: ({ row }) => <CellActions order={row.original} />
+  },
 ];

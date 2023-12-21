@@ -37,6 +37,7 @@ import { Input } from '@/components/ui/input'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+
 }
 
 export function DataTable<TData, TValue>({
@@ -72,9 +73,9 @@ export function DataTable<TData, TValue>({
         <div className='flex items-center py-4'>
           <Input
             placeholder='Search by Nachname...'
-            value={(table.getColumn('nachname')?.getFilterValue() as string) ?? ''}
+            value={(table.getColumn('customerLastName')?.getFilterValue() as string) ?? ''}
             onChange={event =>
-              table.getColumn('nachname')?.setFilterValue(event.target.value)
+              table.getColumn('customerLastName')?.setFilterValue(event.target.value)
             }
             className='max-w-sm'
           />
@@ -82,9 +83,9 @@ export function DataTable<TData, TValue>({
         <div className='flex items-center py-4 ml-2'>
           <Input
             placeholder='Search by Stadt...'
-            value={(table.getColumn('stadt')?.getFilterValue() as string) ?? ''}
+            value={(table.getColumn('customerCity')?.getFilterValue() as string) ?? ''}
             onChange={event =>
-              table.getColumn('stadt')?.setFilterValue(event.target.value)
+              table.getColumn('customerCity')?.setFilterValue(event.target.value)
             }
             className='max-w-sm'
           />
@@ -139,33 +140,44 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map(row => (
+
+
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
+                className={`${
+                  row.original.status === 'NEW'
+                    ? 'bg-notsosoftgreen text-black font-bold'
+                    : row.original.status === 'IN_PROGRESS'
+                    ? 'bg-softgreen text-black'
+                    : row.original.status === 'COMPLETED'
+                    ? 'bg-white text-black'
+                    : ''
+                }`} // Dodaj odpowiednie klasy CSS w zależności od statusu zamówienia
+              >
+                {row.getVisibleCells().map(cell => (
+                  <TableCell key={cell.id}>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className='h-24 text-center'
+              >
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
         </Table>
       </div>
 

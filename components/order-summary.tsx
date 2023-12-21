@@ -35,6 +35,10 @@ import {
             <TableCell className="text-right">{formData.fenceSize}</TableCell>
           </TableRow>
           <TableRow>
+            <TableCell>Length</TableCell>
+            <TableCell className="text-right">{formData.length}</TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell>Drahtstärke</TableCell>
             <TableCell className="text-right">{formData.drahtstaerke}</TableCell>
           </TableRow>

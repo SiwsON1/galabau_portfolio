@@ -80,7 +80,12 @@ model OrderItem {
   drahtstaerkeId String
   fenceSizeId    String
   colorId        String
-  totalPrice     Float        // całkowita cena
+  totalPrice     Float
+  length String @default("default value")
+  corners    String
+  mounting   String
+  delivery   String
+  gate       String
   order          Order        @relation(fields: [orderId], references: [id])
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
   fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])

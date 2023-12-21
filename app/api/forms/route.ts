@@ -55,6 +55,11 @@ export async function POST(req: Request) {
         fenceSizeId: fenceSize.id,
         colorId: color.id,
         totalPrice: data.price,
+        length: data.length,
+        corners: data.corners,    // Dodano nowe pole
+      mounting: data.mounting,  // Dodano nowe pole
+     delivery: data.delivery,  // Dodano nowe pole
+      gate: data.gate,
       },
     });
 
