@@ -39,6 +39,41 @@ model Color {
 
 }
 
+model Corner {
+  id          String       @id @default(uuid())
+  name        String
+  price       Float        // Cena za Corner
+  orderItems  OrderItem[]  // Dodane pole relacji z OrderItem
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+}
+
+model Mounting {
+  id          String       @id @default(uuid())
+  name        String
+  price       Float        // Cena za Mounting
+  orderItems  OrderItem[]  // Dodane pole relacji z OrderItem
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+}
+
+model Delivery {
+  id          String       @id @default(uuid())
+  name        String
+  price       Float        // Cena za Delivery
+  orderItems  OrderItem[]  // Dodane pole relacji z OrderItem
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+}
+
+model Gate {
+  id        String       @id @default(uuid())
+  name      String
+  price     Float        // Cena za Gate
+  orderItems OrderItem[] // Dodane pole relacji z OrderItem
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+}
 
 model Customer {
   id            String   @id @default(uuid())
@@ -65,39 +100,49 @@ model Price {
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
   fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])
   color          Color        @relation(fields: [colorId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
   @@index([drahtstaerkeId])
   @@index([fenceSizeId])
   @@index([colorId])
 }
 
 model OrderItem {
-  id             String       @id @default(uuid())
+    id             String       @id @default(uuid())
   orderId        String
   drahtstaerkeId String
   fenceSizeId    String
   colorId        String
   totalPrice     Float
-  length String @default("default value")
-  corners    String
-  mounting   String
-  delivery   String
-  gate       String
-  order          Order        @relation(fields: [orderId], references: [id])
+   length         String      @default("default value")
+
+  cornerId       String      @default("default_corner_id") // Dodano domyślną wartość
+  cornerAmount   String         @default("default amount") // Nowe pole dla ilości zamówionych cornerów
+  mountingId     String      @default("default_mounting_id") // Dodano domyślną wartość
+  deliveryId     String      @default("default_delivery_id") // Dodano domyślną wartość
+  gateId         String      @default("default_gate_id") // Dodano domyślną wartość
+
+  corner         Corner       @relation(fields: [cornerId], references: [id])
+  mounting       Mounting     @relation(fields: [mountingId], references: [id])
+  delivery       Delivery     @relation(fields: [deliveryId], references: [id])
+  gate           Gate         @relation(fields: [gateId], references: [id])
+
+  order          Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])
   fenceSize      FenceSize    @relation(fields: [fenceSizeId], references: [id])
   color          Color        @relation(fields: [colorId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
 
 
-  @@index([orderId])
+    @@index([orderId])
   @@index([drahtstaerkeId])
   @@index([fenceSizeId])
   @@index([colorId])
+  @@index([cornerId])   // Użyj ID zamiast pola relacji
+  @@index([mountingId]) // Użyj ID zamiast pola relacji
+  @@index([deliveryId]) // Użyj ID zamiast pola relacji
+  @@index([gateId])
 }
 
 enum OrderStatus {

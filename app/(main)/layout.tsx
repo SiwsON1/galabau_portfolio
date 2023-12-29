@@ -23,7 +23,7 @@ export default function RootLayout({
           <main className="flex justify-center overflow-hidden ">
             <div className="max-w-[1440px] bg-white w-full">
               {children}
-              {modal && modal} {/* Renderowanie modala, jeśli istnieje */}
+              {modal && modal} 
             </div>
           </main>
           <Footer />

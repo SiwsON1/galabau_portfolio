@@ -12,7 +12,7 @@ export function WireCorners({ control }: { control: any }) {
   return (
     <FormField
       control={control}
-      name="corners"
+      name="corner"
       render={({ field }) => (
         <FormItem className="flex flex-col w-full mt-10">
           <FormLabel>

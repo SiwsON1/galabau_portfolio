@@ -32,22 +32,42 @@ export async function POST(req: Request) {
       },
     });
 
-    // Znajdź ID dla drahtstaerke, fenceSize, color
     const drahtstaerke = await db.drahtstaerke.findFirst({
       where: { name: data.drahtstaerke },
     });
+    console.log("drahtstaerke:", drahtstaerke);
+
     const fenceSize = await db.fenceSize.findFirst({
       where: { name: data.fenceSize },
     });
+    console.log("fenceSize:", fenceSize);
+
     const color = await db.color.findFirst({
       where: { name: data.color },
     });
+    console.log("color:", color);
 
-    if (!drahtstaerke || !fenceSize || !color) {
+
+    const mounting = await db.mounting.findFirst({
+      where: { name: data.mounting },
+    });
+    console.log("mounting:", mounting);
+
+    const delivery = await db.delivery.findFirst({
+      where: { name: data.delivery },
+    });
+    console.log("delivery:", delivery);
+
+    const gate = await db.gate.findFirst({
+      where: { name: data.gate },
+    });
+    console.log("gate:", gate);
+
+    if (!drahtstaerke || !fenceSize || !color  || !mounting || !delivery || !gate) {
       throw new Error('Nie znaleziono wszystkich wymaganych elementów zamówienia.');
     }
 
-    // Utwórz rekord OrderItem
+    // Utwórz rekord OrderItem z ID zamiast wartości
     const orderItem = await db.orderItem.create({
       data: {
         orderId: order.id,
@@ -56,10 +76,10 @@ export async function POST(req: Request) {
         colorId: color.id,
         totalPrice: data.price,
         length: data.length,
-        corners: data.corners,    // Dodano nowe pole
-      mounting: data.mounting,  // Dodano nowe pole
-     delivery: data.delivery,  // Dodano nowe pole
-      gate: data.gate,
+        cornerAmount: data.corner,
+        mountingId: mounting.id, // Zaktualizowano na mountingId
+        deliveryId: delivery.id, // Zaktualizowano na deliveryId
+        gateId: gate.id,         // Zaktualizowano na gateId
       },
     });
 

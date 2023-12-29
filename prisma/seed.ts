@@ -3,6 +3,55 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+
+  await prisma.corner.create({
+    data: {
+      name: "standard",
+      price: 20
+    }
+  });
+
+  // Dodajemy Mounting z różnymi typami i cenami
+  const mountingTypes = ["type1", "type2", "type3", "type4"];
+  const mountingPrices = [5, 10, 15, 20];
+
+  for (let i = 0; i < mountingTypes.length; i++) {
+    await prisma.mounting.create({
+      data: {
+        name: mountingTypes[i],
+        price: mountingPrices[i]
+      }
+    });
+  }
+
+  // Dodajemy Delivery
+  await prisma.delivery.create({
+    data: {
+      name: "Montage",
+      price: 200
+    }
+  });
+
+  await prisma.delivery.create({
+    data: {
+      name: "Lieferung",
+      price: 50
+    }
+  });
+
+  // Dodajemy Gate z różnymi typami i cenami
+  const gateTypes = [
+    { name: "Einflüglige Toranlage System AC-Typ Light 1", price: 100 },
+    { name: "Einflüglige Toranlage System AC-Typ MRL 1", price: 200 },
+    { name: "Zweiflüglige Toranlage System AC-Typ SRL 2", price: 300 },
+    { name: "Einflüglige Toranlage System AC-Typ SRL 1", price: 400 }
+  ];
+
+  for (const gate of gateTypes) {
+    await prisma.gate.create({
+      data: gate
+    });
+  }
   // Tworzenie Drahtstaerken
   const drahtstaerke1 = await prisma.drahtstaerke.create({
     data: { name: "6/5/6" },

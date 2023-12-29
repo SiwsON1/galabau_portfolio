@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import {
   ColumnDef,
   flexRender,
@@ -14,7 +13,6 @@ import {
   getPaginationRowModel,
   useReactTable
 } from '@tanstack/react-table'
-
 import {
   Table,
   TableBody,
@@ -23,21 +21,18 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-
 }
 
 export function DataTable<TData, TValue>({
@@ -68,7 +63,6 @@ export function DataTable<TData, TValue>({
   return (
     <>
       {/* Filters */}
-
       <div className='flex items-center justify-between'>
         <div className='flex items-center py-4'>
           <Input
@@ -142,37 +136,37 @@ export function DataTable<TData, TValue>({
           <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map(row => (
-
-
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
-                className={`${
-                  row.original.status === 'NEW'
-                    ? 'bg-notsosoftgreen text-black font-bold'
-                    : row.original.status === 'IN_PROGRESS'
-                    ? 'bg-softgreen text-black'
-                    : row.original.status === 'COMPLETED'
-                    ? 'bg-white text-black'
-                    : ''
-                }`} // Dodaj odpowiednie klasy CSS w zależności od statusu zamówienia
               >
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map(cell => {
+                  let textColorClass = '';
+                  if (cell.column.id === 'status') {
+                    switch (cell.getValue()) {
+                      case 'NEW':
+                        textColorClass = 'text-green-500 font-bold';
+                        break;
+                      case 'IN_PROGRESS':
+                        textColorClass = 'text-yellow-500 font-bold';
+                        break;
+                      case 'COMPLETED':
+                        textColorClass = 'text-blue-500 font-bold';
+                        break;
+                      // Dodaj więcej przypadków w razie potrzeby
+                    }
+                  }
+                  return (
+                    <TableCell key={cell.id} className={textColorClass}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  )
+                })}
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className='h-24 text-center'
-              >
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
                 No results.
               </TableCell>
             </TableRow>

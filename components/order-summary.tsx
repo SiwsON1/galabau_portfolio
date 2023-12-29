@@ -44,7 +44,7 @@ import {
           </TableRow>
           <TableRow>
             <TableCell>Corners</TableCell>
-            <TableCell className="text-right">{formData.corners}</TableCell>
+            <TableCell className="text-right">{formData.corner}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Mounting Type</TableCell>

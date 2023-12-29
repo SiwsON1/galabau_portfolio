@@ -9,12 +9,12 @@ export const FormDataSchema = z
       .min(1, "Bitte geben Sie eine Höhe an")
       .regex(/^\d+(\.\d{1,2})?$/, "Bitte geben Sie eine gültige Zahl ein"),
     color: z.string().min(1, "Bitte wählen Sie eine Farbe aus"),
-    corners: z
+    corner: z
       .string()
       .min(1, "Bitte geben Sie die Anzahl der Pfosten an")
       .regex(/^\d+$/, "Bitte geben Sie eine ganze Zahl ein"),
     mounting: z.string().min(1, "Bitte wählen Sie einen Montagetyp aus"),
-    delivery: z.string().min(1, "Bitte wählen Sie eine Lieferoption aus"), 
+    delivery: z.string().min(1, "Bitte wählen Sie eine Lieferoption aus"),
     gate: z.string().min(1, "Bitte wählen Sie einen Tor-Typ aus"),
     vorname: z.string().min(1, "Bitte geben Sie einen Vornamen ein"),
     nachname: z.string().min(1, "Bitte geben Sie einen Nachnamen ein"),

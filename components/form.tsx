@@ -40,10 +40,13 @@ import { OrderSummary } from "./order-summary";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ExtendedPrice } from "@/actions/get-prices";
+import { CombinedPrices } from "@/app/(main)/page";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
+import OrderCompletion from "./order-completion";
 
 
 interface FormProps {
-  prices: ExtendedPrice[];
+  prices: CombinedPrices;
 }
 type Inputs = z.infer<typeof FormDataSchema>;
 
@@ -64,7 +67,7 @@ const steps = [
     name: "Pfostentyp",
     fields: ["mounting"],
   },
-  { id: "Schritt 3", name: "Maße", fields: ["length", "corners", "fenceSize"] },
+  { id: "Schritt 3", name: "Maße", fields: ["length", "corner", "fenceSize"] },
   { id: "Schritt 4", name: "Toranlage", fields: ["gate"] },
   { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
   { id: "Schritt 6", name: "Confirmation"},
@@ -91,7 +94,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [price, setPrice] = useState(0);
-
+  const confetti = useConfettiStore();
 
   type PriceList = {
     [key: string]: { [key: string]: number[] }
@@ -103,22 +106,26 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     const formData = getValues();
     console.log("Dane formularza:", formData);
 
-    const selectedPrice = prices.find(price =>
+    // Używamy prices.standardPrices, aby znaleźć odpowiednią cenę
+    const selectedPrice = prices.standardPrices.find(price =>
       price.drahtstaerke.name === formData.drahtstaerke &&
       price.color.name === formData.color &&
       price.fenceSize.name === formData.fenceSize
     );
 
-    console.log('Wybrana cena:', selectedPrice);
-
     let basePrice = selectedPrice ? selectedPrice.price : 0;
-    console.log('Cena bazowa:', basePrice);
 
-    const totalPrice = basePrice * parseFloat(formData.length || '0');
-    console.log('Łączna cena:', totalPrice);
+    // Dodawanie cen za wybrane dodatkowe elementy
+    const cornerPrice = prices.additionalPrices.corners.find(corner => corner.name === formData.corner)?.price || 0;
+    const mountingPrice = prices.additionalPrices.mountings.find(mounting => mounting.name === formData.mounting)?.price || 0;
+    const deliveryPrice = prices.additionalPrices.deliveries.find(delivery => delivery.name === formData.delivery)?.price || 0;
+    const gatePrice = prices.additionalPrices.gates.find(gate => gate.name === formData.gate)?.price || 0;
+
+    // Kalkulacja łącznej ceny
+    const totalPrice = (basePrice * parseFloat(formData.length || '0')) + cornerPrice + mountingPrice + deliveryPrice + gatePrice;
 
     setPrice(totalPrice);
-  };
+};
 
 
 
@@ -132,7 +139,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       color: "",
       fenceSize: "",
       drahtstaerke: "",
-      corners: "",
+      corner: "",
       mounting: "",
       gate: "",
       vorname: "",
@@ -169,6 +176,8 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
       const response = await axios.post("/api/forms", formDataWithPrice);
       toast.success("Order created");
+      confetti.onOpen();
+      reset();
     } catch {
       toast.error("Something went wrong");
     }
@@ -176,13 +185,13 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const drahtstaerke = watch('drahtstaerke');
   const color = watch('color');
   const length = watch('length');
-  const corners = watch('corners');
+  const corner = watch('corner');
   const fenceSize = watch('fenceSize');
 
   useEffect(() => {
     // Wywołanie funkcji calculatePrice kiedykolwiek zmieniają się obserwowane wartości
     calculatePrice();
-  }, [drahtstaerke, color, length, corners, fenceSize]); // Dodaj zmienne jako zależności
+  }, [drahtstaerke, color, length, corner, fenceSize]); // Dodaj zmienne jako zależności
 
   type FieldName = keyof Inputs;
 
@@ -381,9 +390,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <div>
-                Good job ordering
-              </div>
+              <OrderCompletion />
             </motion.div>
           )}
           <div className="mt-8 pt-5">

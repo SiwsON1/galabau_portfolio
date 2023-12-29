@@ -11,24 +11,33 @@ import { UserButton } from "@clerk/nextjs";
 
 // Import ExtendedPrice
 import { ExtendedPrice } from "@/actions/get-prices";
+import { ExtendedAdditionalPrice, getAdditionalPrices } from "@/actions/get-additional-prices";
 
 
 
-
+export interface CombinedPrices {
+  standardPrices: ExtendedPrice[];
+  additionalPrices: ExtendedAdditionalPrice;
+}
 
 interface HomeProps {
-  prices: ExtendedPrice[];
+  prices: CombinedPrices;
 }
 
 const Home: React.FC<HomeProps> = async () => {
   const prices = await getPrices();
+  const additionalPrices = await getAdditionalPrices();
+  const combinedPrices = {
+    standardPrices: prices,
+    additionalPrices: additionalPrices
+  };
 
   return (
     <>
       <HeroBanner />
       <Featured />
       <AboutUs />
-      <FormCard prices={prices} />
+      <FormCard prices={combinedPrices} />
       <Gallery />
     </>
   );
