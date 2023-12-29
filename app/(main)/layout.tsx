@@ -1,5 +1,4 @@
 import React from 'react';
-import { Roboto } from "next/font/google";
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -8,7 +7,7 @@ import Footer from "@/components/footer";
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  modal: React.ReactNode; // Dodanie propa modal jako opcjonalnego
+  modal?: React.ReactNode; // Dodanie propa modal jako opcjonalnego
 }
 
 export default function RootLayout({
@@ -23,7 +22,7 @@ export default function RootLayout({
           <main className="flex justify-center overflow-hidden ">
             <div className="max-w-[1440px] bg-white w-full">
               {children}
-              {modal && modal} 
+              {modal && modal}
             </div>
           </main>
           <Footer />
