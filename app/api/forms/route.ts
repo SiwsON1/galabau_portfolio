@@ -58,12 +58,12 @@ export async function POST(req: Request) {
     });
     console.log("delivery:", delivery);
 
-    const gate = await db.gate.findFirst({
+    const gate = data.gateNeeded ? await db.gate.findFirst({
       where: { name: data.gate },
-    });
+    }) : null;
     console.log("gate:", gate);
 
-    if (!drahtstaerke || !fenceSize || !color  || !mounting || !delivery || !gate) {
+    if (!drahtstaerke || !fenceSize || !color || !mounting || !delivery || (data.gateNeeded && !gate)) {
       throw new Error('Nie znaleziono wszystkich wymaganych elementów zamówienia.');
     }
 
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
         cornerAmount: data.corner,
         mountingId: mounting.id, // Zaktualizowano na mountingId
         deliveryId: delivery.id, // Zaktualizowano na deliveryId
-        gateId: gate.id,         // Zaktualizowano na gateId
+        gateId: gate?.id,         // Zaktualizowano na gateId
       },
     });
 

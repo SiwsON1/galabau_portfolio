@@ -15,7 +15,8 @@ export const FormDataSchema = z
       .regex(/^\d+$/, "Bitte geben Sie eine ganze Zahl ein"),
     mounting: z.string().min(1, "Bitte wählen Sie einen Montagetyp aus"),
     delivery: z.string().min(1, "Bitte wählen Sie eine Lieferoption aus"),
-    gate: z.string().min(1, "Bitte wählen Sie einen Tor-Typ aus"),
+    gate: z.string().optional(),
+    gateNeeded: z.boolean().optional(),
     vorname: z.string().min(1, "Bitte geben Sie einen Vornamen ein"),
     nachname: z.string().min(1, "Bitte geben Sie einen Nachnamen ein"),
     email: z
@@ -37,4 +38,13 @@ export const FormDataSchema = z
   .refine((data) => data.email === data.emailConfirm, {
     path: ["emailConfirm"],
     message: "Die E-Mail-Adressen stimmen nicht überein",
+  })
+  .refine((data) => {
+    if (data.gateNeeded) {
+      return data.gate && data.gate.trim().length > 0;
+    }
+    return true;
+  }, {
+    message: "Bitte wählen Sie einen Tor-Typ aus",
+    path: ["gate"],
   });

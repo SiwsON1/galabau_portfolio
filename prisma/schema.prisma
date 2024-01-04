@@ -120,12 +120,12 @@ model OrderItem {
   cornerAmount   String         @default("default amount") // Nowe pole dla ilości zamówionych cornerów
   mountingId     String      @default("default_mounting_id") // Dodano domyślną wartość
   deliveryId     String      @default("default_delivery_id") // Dodano domyślną wartość
-  gateId         String      @default("default_gate_id") // Dodano domyślną wartość
+  gateId         String?      @default("default_gate_id") // Dodano domyślną wartość
 
   corner         Corner       @relation(fields: [cornerId], references: [id])
   mounting       Mounting     @relation(fields: [mountingId], references: [id])
   delivery       Delivery     @relation(fields: [deliveryId], references: [id])
-  gate           Gate         @relation(fields: [gateId], references: [id])
+  gate           Gate?         @relation(fields: [gateId], references: [id])
 
   order          Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])

@@ -8,8 +8,6 @@ export function WireMounting({ control }: { control: any }) {
   const selectedValue = watch("mounting");
 
   const mountingOptions = {
-    type1: { imageSrc: "/mocowanie_typ_1.webp", label: "Pfostentyp 1" },
-    type2: { imageSrc: "/mocowanie_typ_2.webp", label: "Pfostentyp 2" },
     type3: { imageSrc: "/mocowanie_typ_3.webp", label: "Pfostentyp 3" },
     type4: { imageSrc: "/mocowanie_typ_4.webp", label: "Pfostentyp 4" },
     // Dodaj więcej opcji, jeśli potrzebujesz

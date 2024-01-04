@@ -17,12 +17,12 @@ import {
 
   export function OrderSummary({ price, formData }: OrderSummaryProps) {
     return (
-      <Table>
+      <Table className='w-1/2 mx-auto'>
         <TableCaption>Podsumowanie zamówienia</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Nazwa opcji</TableHead>
-            <TableHead className="text-right">Wartość</TableHead>
+            <TableHead className="text-xl">Nazwa opcji</TableHead>
+            <TableHead className="text-right text-xl">Wartość</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

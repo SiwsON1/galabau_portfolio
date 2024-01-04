@@ -43,7 +43,7 @@ import { ExtendedPrice } from "@/actions/get-prices";
 import { CombinedPrices } from "@/app/(main)/page";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
 import OrderCompletion from "./order-completion";
-
+import { GateCheck } from "./gate-checkbox";
 
 interface FormProps {
   prices: CombinedPrices;
@@ -65,12 +65,12 @@ const steps = [
   {
     id: "Schritt 2",
     name: "Pfostentyp",
-    fields: ["mounting"],
+    fields: ["mounting", "gateNeeded"],
   },
   { id: "Schritt 3", name: "Maße", fields: ["length", "corner", "fenceSize"] },
   { id: "Schritt 4", name: "Toranlage", fields: ["gate"] },
   { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
-  { id: "Schritt 6", name: "Confirmation"},
+  { id: "Schritt 6", name: "Confirmation" },
   {
     id: "Schritt 7",
     name: "Use Client",
@@ -86,7 +86,7 @@ const steps = [
       "datenschutz",
     ],
   },
-  { id: "Schritt 8", name: "Ordered"},
+  { id: "Schritt 8", name: "Ordered" },
 ];
 
 const FenceForm: React.FC<FormProps> = ({ prices }) => {
@@ -97,38 +97,50 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const confetti = useConfettiStore();
 
   type PriceList = {
-    [key: string]: { [key: string]: number[] }
+    [key: string]: { [key: string]: number[] };
   };
-
-
 
   const calculatePrice = () => {
     const formData = getValues();
     console.log("Dane formularza:", formData);
 
     // Używamy prices.standardPrices, aby znaleźć odpowiednią cenę
-    const selectedPrice = prices.standardPrices.find(price =>
-      price.drahtstaerke.name === formData.drahtstaerke &&
-      price.color.name === formData.color &&
-      price.fenceSize.name === formData.fenceSize
+    const selectedPrice = prices.standardPrices.find(
+      (price) =>
+        price.drahtstaerke.name === formData.drahtstaerke &&
+        price.color.name === formData.color &&
+        price.fenceSize.name === formData.fenceSize
     );
 
     let basePrice = selectedPrice ? selectedPrice.price : 0;
 
     // Dodawanie cen za wybrane dodatkowe elementy
-    const cornerPrice = prices.additionalPrices.corners.find(corner => corner.name === formData.corner)?.price || 0;
-    const mountingPrice = prices.additionalPrices.mountings.find(mounting => mounting.name === formData.mounting)?.price || 0;
-    const deliveryPrice = prices.additionalPrices.deliveries.find(delivery => delivery.name === formData.delivery)?.price || 0;
-    const gatePrice = prices.additionalPrices.gates.find(gate => gate.name === formData.gate)?.price || 0;
+    const cornerPrice =
+      prices.additionalPrices.corners.find(
+        (corner) => corner.name === formData.corner
+      )?.price || 0;
+    const mountingPrice =
+      prices.additionalPrices.mountings.find(
+        (mounting) => mounting.name === formData.mounting
+      )?.price || 0;
+    const deliveryPrice =
+      prices.additionalPrices.deliveries.find(
+        (delivery) => delivery.name === formData.delivery
+      )?.price || 0;
+    const gatePrice =
+      prices.additionalPrices.gates.find((gate) => gate.name === formData.gate)
+        ?.price || 0;
 
     // Kalkulacja łącznej ceny
-    const totalPrice = (basePrice * parseFloat(formData.length || '0')) + cornerPrice + mountingPrice + deliveryPrice + gatePrice;
+    const totalPrice =
+      basePrice * parseFloat(formData.length || "0") +
+      cornerPrice +
+      mountingPrice +
+      deliveryPrice +
+      gatePrice;
 
     setPrice(totalPrice);
-};
-
-
-
+  };
 
   const delta = currentStep - previousStep;
 
@@ -168,9 +180,14 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     formState: { errors },
   } = form;
 
-  const processForm: SubmitHandler<Inputs> = async data => {
-    try {
+  const gateNeeded = watch("gateNeeded");
 
+  const processForm: SubmitHandler<Inputs> = async (data) => {
+
+    if (!data.gateNeeded) {
+      data.gate = "none";
+    }
+    try {
       const formDataWithPrice = { ...data, price };
       console.log("Wysyłane dane formularza:", formDataWithPrice);
 
@@ -181,12 +198,12 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     } catch {
       toast.error("Something went wrong");
     }
-  }
-  const drahtstaerke = watch('drahtstaerke');
-  const color = watch('color');
-  const length = watch('length');
-  const corner = watch('corner');
-  const fenceSize = watch('fenceSize');
+  };
+  const drahtstaerke = watch("drahtstaerke");
+  const color = watch("color");
+  const length = watch("length");
+  const corner = watch("corner");
+  const fenceSize = watch("fenceSize");
 
   useEffect(() => {
     // Wywołanie funkcji calculatePrice kiedykolwiek zmieniają się obserwowane wartości
@@ -233,6 +250,11 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     }
   };
 
+  useEffect(() => {
+    if (!gateNeeded) {
+      setValue("gate", "none");
+    }
+  }, [gateNeeded, setValue]);
 
   return (
     <section className="flex flex-col justify-between p-8">
@@ -346,8 +368,9 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <div className="flex flex-col items-center  w-full  ">
-                <GateForm control={control} />
+              <div className="flex flex-col items-center w-full  ">
+                <GateCheck control={control} />
+                {gateNeeded && <GateForm control={control} />}
               </div>
             </motion.div>
           )}
@@ -369,8 +392,11 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-                              <OrderSummary price={price} formData={getValues()} />
 
+<div className="flex  items-center justify-center">
+
+              <OrderSummary price={price} formData={getValues()} />
+              </div>
             </motion.div>
           )}
 
@@ -384,7 +410,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
             </motion.div>
           )}
 
-{currentStep === 7 && (
+          {currentStep === 7 && (
             <motion.div
               initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -413,10 +439,9 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               </button>
             </div>
           </div>
-
         </form>
       </Form>
     </section>
   );
-}
+};
 export default FenceForm;
