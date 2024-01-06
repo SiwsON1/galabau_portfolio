@@ -9,7 +9,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
-
 }) {
   return (
     <div className="h-full">
@@ -19,7 +18,7 @@ export default function RootLayout({
       <main className="flex justify-center overflow-hidden">
         <div className="max-w-[1440px] bg-white w-full">
           {children}
-          {modal && modal}
+          {modal}
         </div>
       </main>
       <Footer />
