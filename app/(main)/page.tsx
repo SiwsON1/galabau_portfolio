@@ -26,7 +26,7 @@ interface HomeProps {
   prices: CombinedPrices;
 }
 
-const Home: React.FC<HomeProps> = async () => {
+const Home = async () => {
   const prices = await getPrices();
   const additionalPrices = await getAdditionalPrices();
   const combinedPrices = {
