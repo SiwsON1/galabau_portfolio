@@ -18,7 +18,7 @@ export default function MainLayout({
       <main className="flex justify-center overflow-hidden">
         <div className="max-w-[1440px] bg-white w-full">
           {children}
-          {modal}
+          {modal && modal}
         </div>
       </main>
       <Footer />
