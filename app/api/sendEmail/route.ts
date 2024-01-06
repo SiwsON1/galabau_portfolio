@@ -7,30 +7,19 @@ export async function POST(request: Request) {
     try {
         const formData = await request.json();
         console.log("Otrzymane dane formularza:", formData);
-        console.log('Cena to',formData.totalPrice)
 
-        // Wczytanie szablonu HTML
-        const templatePath = path.resolve('lib/templates/email-template.html');
-        console.log("Ścieżka do szablonu:", templatePath);
+        // Wczytanie szablonów HTML
+        const clientTemplatePath = path.resolve('lib/templates/email-template.html');
+        let clientEmailTemplate = fs.readFileSync(clientTemplatePath, 'utf8');
 
-        let emailTemplate = fs.readFileSync(templatePath, 'utf8');
-        console.log("Wczytany szablon:", emailTemplate);
+        const adminTemplatePath = path.resolve('lib/templates/email-admin-template.html');
+        let adminEmailTemplate = fs.readFileSync(adminTemplatePath, 'utf8');
 
-        // Interpolacja danych
-        emailTemplate = emailTemplate.replace('{{name}}', formData.vorname + ' ' + formData.nachname);
-        emailTemplate = emailTemplate.replace('{{color}}', formData.color);
-        emailTemplate = emailTemplate.replace('{{drahtstaerke}}', formData.drahtstaerke);
+        // Wypełnienie szablonu danymi dla klienta
+        clientEmailTemplate = fillTemplateWithData(clientEmailTemplate, formData);
 
-        const fenceCoverText = formData.fenceCover === 'standard' ? 'Doppelstabmattenzaun' : 'Sichtschutzzaun';
-        emailTemplate = emailTemplate.replace('{{fenceCover}}', fenceCoverText);
-
-        emailTemplate = emailTemplate.replace('{{fenceSize}}', formData.fenceSize);
-        emailTemplate = emailTemplate.replace('{{length}}', formData.length);
-        emailTemplate = emailTemplate.replace('{{corner}}', formData.corner);
-        emailTemplate = emailTemplate.replace('{{mounting}}', formData.mounting);
-        emailTemplate = emailTemplate.replace('{{delivery}}', formData.delivery);
-        emailTemplate = emailTemplate.replace('{{gate}}', formData.gate );
-        emailTemplate = emailTemplate.replace('{{totalPrice}}', formData.price);
+        // Wypełnienie szablonu danymi dla administratora
+        adminEmailTemplate = fillTemplateWithData(adminEmailTemplate, formData);
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -45,28 +34,63 @@ export async function POST(request: Request) {
             from: 'galabaudarius@gmail.com',
             to: formData.email,
             subject: "Danke für Ihre Anfrage",
-            html: emailTemplate
+            html: clientEmailTemplate
         };
 
-        // Email do Ciebie
-        const mailToYou = {
+        // Email do administratora
+        const mailToAdmin = {
             from: 'galabaudarius@gmail.com',
-            to: 'galabaudarius@gmail.com',
+            to: 'galabaudarius@gmail.com', // Adres e-mail administratora
             subject: "Neue Anfrage erhalten",
-            html: emailTemplate // Ewentualnie dostosuj tę część
+            html: adminEmailTemplate
         };
 
-        console.log("Wysyłanie email do klienta...");
         await transporter.sendMail(mailToClient);
-        console.log("Email do klienta wysłany.");
-
-        console.log("Wysyłanie email do Ciebie...");
-        await transporter.sendMail(mailToYou);
-        console.log("Email do Ciebie wysłany.");
+        await transporter.sendMail(mailToAdmin);
 
         return NextResponse.json({ message: "E-Mails erfolgreich gesendet" }, { status: 200 });
     } catch (error) {
         console.error("Błąd:", error);
         return NextResponse.json({ message: "Fehler beim Senden der E-Mails" }, { status: 500 });
     }
+}
+
+interface FormData {
+    vorname: string;
+    nachname: string;
+    color: string;
+    drahtstaerke: string;
+    fenceSize: string;
+    fenceCover: string;
+    length: string;
+    corner: string;
+    mounting: string;
+    delivery: string;
+    gate: string;
+    price: number;
+    email: string;
+    telefon: string;
+    postleitzahl: string;
+    stadt: string;
+    anmerkungen: string;
+  }
+
+function fillTemplateWithData(template: string, data: FormData) {
+    template = template.replace('{{name}}', data.vorname + ' ' + data.nachname);
+    template = template.replace('{{color}}', data.color);
+    template = template.replace('{{drahtstaerke}}', data.drahtstaerke);
+    template = template.replace('{{fenceSize}}', data.fenceSize);
+    template = template.replace('{{fenceCover}}', data.fenceCover === 'standard' ? 'Doppelstabmattenzaun' : 'Sichtschutzzaun');
+    template = template.replace('{{length}}', data.length + ' Meter');
+    template = template.replace('{{corner}}', data.corner);
+    template = template.replace('{{mounting}}', data.mounting);
+    template = template.replace('{{delivery}}', data.delivery);
+    template = template.replace('{{gate}}', data.gate ? data.gate : 'Kein Tor ausgewählt');
+    template = template.replace('{{totalPrice}}', data.price + '€');
+    template = template.replace('{{email}}', data.email);
+    template = template.replace('{{telefon}}', data.telefon);
+    template = template.replace('{{postleitzahl}}', data.postleitzahl);
+    template = template.replace('{{stadt}}', data.stadt);
+    template = template.replace('{{anmerkungen}}', data.anmerkungen ? data.anmerkungen : 'Keine Anmerkungen');
+    return template;
 }
