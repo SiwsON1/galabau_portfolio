@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { Corner, Mounting, Delivery, Gate } from "@prisma/client";
+import {  Mounting, Corner, Delivery, Gate } from "@prisma/client";
 
 export interface ExtendedAdditionalPrice {
   corners: Corner[];
