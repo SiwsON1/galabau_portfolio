@@ -8,7 +8,7 @@ export default function MainLayout({
   modal,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  modal?: React.ReactNode;
 }) {
   return (
     <div className="h-full">
