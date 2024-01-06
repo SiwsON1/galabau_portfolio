@@ -12,6 +12,8 @@ import { UserButton } from "@clerk/nextjs";
 // Import ExtendedPrice
 import { ExtendedPrice } from "@/actions/get-prices";
 import { ExtendedAdditionalPrice, getAdditionalPrices } from "@/actions/get-additional-prices";
+import ContactBubble from "@/components/contact-bubble";
+import { AnswearsAccordion } from "@/components/answears-accordion";
 
 
 
@@ -39,6 +41,10 @@ const Home: React.FC<HomeProps> = async () => {
       <AboutUs />
       <FormCard prices={combinedPrices} />
       <Gallery />
+      <AnswearsAccordion />
+      <div className="hidden md:block">
+        <ContactBubble />
+      </div>
     </>
   );
 };

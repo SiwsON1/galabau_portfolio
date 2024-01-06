@@ -83,3 +83,23 @@
     @apply font-bold text-black
   }
 }
+
+@layer components {
+  .bubble {
+    @apply bg-blue-500 text-white rounded-full p-4 shadow-lg flex items-center justify-center;
+    width: 120px;
+    height: 90px;
+    position: relative;
+    font-size: 24px;
+    font-weight: 900;
+  }
+
+  .bubble-tail {
+    @apply bg-blue-500 rounded-full;
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    right: -10px;
+    bottom: -10px;
+  }
+}

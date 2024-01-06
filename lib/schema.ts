@@ -4,6 +4,7 @@ export const FormDataSchema = z
   .object({
     drahtstaerke: z.string().min(1, "Bitte wählen Sie eine Drahtstärke aus"),
     fenceSize: z.string().min(1, "Die minimale Größe beträgt 0.63m"),
+    fenceCover: z.string().min(1, "Bitte wählen Sie eine Fencetype aus"),
     length: z
       .string()
       .min(1, "Bitte geben Sie eine Höhe an")

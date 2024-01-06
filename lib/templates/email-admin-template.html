@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+        }
+        .header {
+            background: #004aad;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .section {
+            margin-top: 20px;
+            background: #e7f2fa;
+            padding: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Neue Bestellung erhalten!</h1>
+        </div>
+
+        <div class="section">
+            <h3>Daten des Kunden:</h3>
+            <p>Name: {{vorname}} {{nachname}}</p>
+            <p>E-Mail: {{email}}</p>
+            <p>Telefon: {{telefon}}</p>
+            <p>PLZ: {{postleitzahl}}</p>
+            <p>Stadt: {{stadt}}</p>
+            <p>Anmerkungen: {{anmerkungen}}</p>
+        </div>
+        <div class="section">
+            <h3>Details der Bestellung:</h3>
+            <p>Farbe des Zauns: {{color}}</p>
+            <p>Drahtstärke: {{drahtstaerke}}</p>
+            <p>Größe des Zauns: {{fenceSize}}</p>
+            <p>Zaunabdeckung: {{fenceCover}}</p>
+            <p>Länge: {{length}} Meter</p>
+            <p>Eckenanzahl: {{corner}}</p>
+            <p>Montagetyp: {{mounting}}</p>
+            <p>Lieferoption: {{delivery}}</p>
+            <p>Tor: {{gate}}</p>
+            <p><strong>Gesamtpreis: {{totalPrice}}€</strong></p>
+        </div>
+
+    </div>
+</body>
+</html>

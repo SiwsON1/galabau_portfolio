@@ -44,6 +44,7 @@ import { CombinedPrices } from "@/app/(main)/page";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
 import OrderCompletion from "./order-completion";
 import { GateCheck } from "./gate-checkbox";
+import { FenceCover } from "./wire-cover";
 
 interface FormProps {
   prices: CombinedPrices;
@@ -183,20 +184,31 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const gateNeeded = watch("gateNeeded");
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
-
     if (!data.gateNeeded) {
       data.gate = "none";
     }
+
     try {
       const formDataWithPrice = { ...data, price };
-      console.log("Wysyłane dane formularza:", formDataWithPrice);
 
-      const response = await axios.post("/api/forms", formDataWithPrice);
-      toast.success("Order created");
-      confetti.onOpen();
-      reset();
-    } catch {
-      toast.error("Something went wrong");
+      toast.success("Twoje zamówienie jest przetwarzane");
+      const formResponse = await axios.post("/api/forms", formDataWithPrice);
+
+      if (formResponse.status === 200) {
+        // Po pomyślnym przetworzeniu formularza, wysyłanie danych do API wysyłania e-maili
+        await axios.post("/api/sendEmail", formDataWithPrice);
+
+        toast.success("Zamówienie utworzone i e-mail wysłany");
+        confetti.onOpen();
+        reset();
+      } else {
+        // Obsługa błędów odpowiedzi z API formularza
+        toast.error("Wystąpił błąd podczas przetwarzania formularza");
+      }
+    } catch (error) {
+      // Obsługa innych błędów (np. związanych z siecią)
+      console.error("Błąd:", error);
+      toast.error("Wystąpił błąd");
     }
   };
   const drahtstaerke = watch("drahtstaerke");
@@ -337,6 +349,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <div className="flex flex-col gap-y-10 items-center justify-center">
+                <FenceCover control={control} />
                 <WireMounting control={control} />
               </div>
             </motion.div>

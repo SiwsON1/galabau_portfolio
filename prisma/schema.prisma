@@ -38,6 +38,14 @@ model Color {
   updatedAt DateTime @default(now()) @updatedAt
 
 }
+model FenceCover {
+  id        String     @id @default(uuid())
+  name      String     // "standard" lub "withCover"
+  price     Float
+  orderItems OrderItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+}
 
 model Corner {
   id          String       @id @default(uuid())
@@ -121,6 +129,8 @@ model OrderItem {
   mountingId     String      @default("default_mounting_id") // Dodano domyślną wartość
   deliveryId     String      @default("default_delivery_id") // Dodano domyślną wartość
   gateId         String?      @default("default_gate_id") // Dodano domyślną wartość
+  fenceCoverId   String   @default("domyslny_id_fence_cover") // Ustaw domyślny ID
+  fenceCover   FenceCover @relation(fields: [fenceCoverId], references: [id]) // Relacja do modelu FenceType
 
   corner         Corner       @relation(fields: [cornerId], references: [id])
   mounting       Mounting     @relation(fields: [mountingId], references: [id])
@@ -143,6 +153,8 @@ model OrderItem {
   @@index([mountingId]) // Użyj ID zamiast pola relacji
   @@index([deliveryId]) // Użyj ID zamiast pola relacji
   @@index([gateId])
+  @@index([fenceCoverId]) // Dodanie indeksu dla pola fenceCoverId
+
 }
 
 enum OrderStatus {

@@ -1,4 +1,4 @@
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'lucide-react';
+import { FacebookIcon, InstagramIcon, MessageCircle, PhoneCall } from 'lucide-react';
 import Link from 'next/link';
 
 // Define a type for the props
@@ -7,6 +7,9 @@ interface SocialsProps {
 }
 
 const Socials = ({ containerStyles }: SocialsProps) => {
+  const facebookMessengerId = '5535629916550981'; // Zmień na właściwy identyfikator
+  const phoneNumber = '519051781'; // Zmień na właściwy numer telefonu
+
   return (
     <ul className={`${containerStyles}`}>
       <li>
@@ -20,9 +23,14 @@ const Socials = ({ containerStyles }: SocialsProps) => {
         </Link>
       </li>
       <li>
-        <Link href='/'>
-          <TwitterIcon />
-        </Link>
+        <a href={`https://m.me/${facebookMessengerId}`}>
+          <MessageCircle />
+        </a>
+      </li>
+      <li>
+        <a href={`tel:${phoneNumber}`}>
+          <PhoneCall />
+        </a>
       </li>
     </ul>
   );

@@ -1,8 +1,10 @@
 import React from 'react';
 import Socials from './socials';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
+
+
   return (
     <footer className="pt-12 xl:pt-[100px] bg-lightcharcoal text-white">
       <div className="container mx-auto pb-12 xl:pb-[100px]">
@@ -17,7 +19,7 @@ const Footer = () => {
               </div>
               <div className='flex items-center gap-x-3'>
                 <Phone className='text-steelblue'/>
-                <div>123 456 789</div>
+                <a href="tel:+48519051781">519051781</a>
               </div>
               <div className='flex items-center gap-x-3'>
                 <Mail className='text-steelblue'/>
