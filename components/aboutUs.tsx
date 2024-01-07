@@ -32,11 +32,7 @@ const AboutUs = () => {
               alt="Zaun- und Torinstallation"
             />
           </motion.div>
-          <motion.div
-          variants={fadeIn('left', 0.6)}
-          initial='hidden'
-          whileInView={'show'}
-          viewport={{once: false, amount: 0.5}}
+          <div
           className="xl:max-w-[470px]">
             <h2 className="h2 mb-[40px]">Über Uns – Expertise trifft auf Präzision</h2>
             <p className="mb-10 ">
@@ -60,7 +56,7 @@ Kontaktieren Sie mich gerne unter +49 1573 6978719 für eine Beratung oder um me
             <Link href="https://www.facebook.com/profile.php?id=61553627408575">
       <Button size="oval" variant="blue">Weitere Informationen</Button>
       </Link>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

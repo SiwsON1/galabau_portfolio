@@ -66,7 +66,7 @@ const steps = [
   {
     id: "Schritt 2",
     name: "Pfostentyp",
-    fields: ["mounting", "gateNeeded"],
+    fields: ["mounting", "fenceCover"],
   },
   { id: "Schritt 3", name: "Maße", fields: ["length", "corner", "fenceSize"] },
   { id: "Schritt 4", name: "Toranlage", fields: ["gate"] },
@@ -134,11 +134,12 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
     // Kalkulacja łącznej ceny
     const totalPrice =
-      basePrice * parseFloat(formData.length || "0") +
-      cornerPrice +
-      mountingPrice +
-      deliveryPrice +
-      gatePrice;
+      basePrice * parseFloat(formData.length || "0")
+      //+
+      // cornerPrice +
+      // mountingPrice +
+      // deliveryPrice +
+      // gatePrice;
 
     setPrice(totalPrice);
   };
@@ -153,6 +154,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       fenceSize: "",
       drahtstaerke: "",
       corner: "",
+      fenceCover: "",
       mounting: "",
       gate: "",
       vorname: "",
