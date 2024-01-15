@@ -45,6 +45,7 @@ import { useConfettiStore } from "@/hooks/use-confetti-store";
 import OrderCompletion from "./order-completion";
 import { GateCheck } from "./gate-checkbox";
 import { FenceCover } from "./wire-cover";
+import Loader from "./Loader";
 
 interface FormProps {
   prices: CombinedPrices;
@@ -96,6 +97,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [price, setPrice] = useState(0);
   const confetti = useConfettiStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   type PriceList = {
     [key: string]: { [key: string]: number[] };
@@ -120,27 +122,27 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       prices.additionalPrices.corners.find(
         (corner) => corner.name === formData.corner
       )?.price || 0;
-    const mountingPrice =
-      prices.additionalPrices.mountings.find(
-        (mounting) => mounting.name === formData.mounting
-      )?.price || 0;
-    const deliveryPrice =
-      prices.additionalPrices.deliveries.find(
-        (delivery) => delivery.name === formData.delivery
-      )?.price || 0;
-    const gatePrice =
-      prices.additionalPrices.gates.find((gate) => gate.name === formData.gate)
-        ?.price || 0;
+
+    const singleCornerPrice = prices.additionalPrices.corners[0]?.price || 0;
+    const totalCornerPrice = singleCornerPrice * parseInt(formData.corner || "0");
+
+    // Resetowanie dodatkowego kosztu montażu
+    let additionalMountingCost = 0;
+    console.log('Wybrany typ montażu:', formData.mounting);
+    if (formData.mounting === "type3") {
+      const length = parseFloat(formData.length || "0");
+      console.log('Długość:', length);
+      additionalMountingCost = (Math.ceil(length / 2.5) + 1) * 10;
+      console.log('Dodatkowy koszt montażu (type3):', additionalMountingCost);
+    } else {
+      console.log('Brak dodatkowego kosztu montażu dla typu:', formData.mounting);
+    }
 
     // Kalkulacja łącznej ceny
-    const totalPrice =
-      basePrice * parseFloat(formData.length || "0")
-      //+
-      // cornerPrice +
-      // mountingPrice +
-      // deliveryPrice +
-      // gatePrice;
+    const totalPrice = basePrice * parseFloat(formData.length || "0") + totalCornerPrice + additionalMountingCost;
+    console.log('Łączna cena:', totalPrice);
 
+    // Ustawienie końcowej ceny
     setPrice(totalPrice);
   };
 
@@ -218,11 +220,12 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const length = watch("length");
   const corner = watch("corner");
   const fenceSize = watch("fenceSize");
+  const mountingType = watch("mounting");
 
   useEffect(() => {
     // Wywołanie funkcji calculatePrice kiedykolwiek zmieniają się obserwowane wartości
     calculatePrice();
-  }, [drahtstaerke, color, length, corner, fenceSize]); // Dodaj zmienne jako zależności
+  }, [drahtstaerke, color, length, corner, fenceSize, mountingType]); // Dodaj zmienne jako zależności
 
   type FieldName = keyof Inputs;
 
@@ -238,8 +241,10 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
       if (currentStep < steps.length - 1) {
         if (currentStep === steps.length - 2) {
+          setIsLoading(true);
           await handleSubmit(processForm)();
           setCurrentStep((step) => step + 1);
+          setIsLoading(false);
         }
       }
       // Typowanie zmiennej currentData
@@ -407,10 +412,8 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-
-<div className="flex  items-center justify-center">
-
-              <OrderSummary price={price} formData={getValues()} />
+              <div className="flex  items-center justify-center">
+                <OrderSummary price={price} formData={getValues()} />
               </div>
             </motion.div>
           )}
@@ -421,7 +424,11 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <UserForm control={control} />
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <UserForm control={control} />
+              )}
             </motion.div>
           )}
 

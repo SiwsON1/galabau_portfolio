@@ -48,13 +48,13 @@ const Navbar = () => {
         <MobileSidebar />
         <div className="hidden md:flex items-center">
           <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
-            <a href="#gallery" onClick={handleNavClick}>Gallery</a>
+            <a href="#gallery" onClick={handleNavClick}>Galerie</a>
           </span>
           <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
-            <a href="#konfigurator" onClick={handleNavClick}>Order Form</a>
+            <a href="#aboutUs" onClick={handleNavClick}>Über Uns</a>
           </span>
           <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
-            <a href="#aboutUs" onClick={handleNavClick}>About Us</a>
+            <a href="#konfigurator" onClick={handleNavClick}>Zaunkonfigurator</a>
           </span>
           <UserButton afterSignOutUrl="/"/>
 

@@ -1,15 +1,16 @@
 import { useFormContext } from "react-hook-form";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormMessage, FormControl } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { RadioOption } from "./radioOption";
+import { ButtonRadioOption } from "./button-radio-option";
 
 export function FenceCover({ control }: { control: any }) {
-  const { watch, formState: { errors } } = useFormContext();
+  const { watch } = useFormContext();
   const selectedValue = watch("fenceCover");
 
-  const fenceOptions = {
-    standard: { imageSrc: "/doppelstabmattenzaun.jpg", label: "Doppelstabmattenzaun" },
-    withCover: { imageSrc: "/sichtschutzzaun.jpg", label: "Sichtschutzzaun" },
+  const coverOptions = {
+    "yes": { label: "Ja" },
+    "no": { label: "Nein" },
+    // Dodaj więcej opcji, jeśli potrzebujesz
   };
 
   return (
@@ -19,28 +20,32 @@ export function FenceCover({ control }: { control: any }) {
       render={({ field }) => (
         <FormItem>
           <FormLabel>
-            <h3 className="text-xl text-center text-anthracit1">Zauntyp</h3>
+            <h3 className="text-xl text-center text-anthracit1">
+              Benötigen Sie einen Sichtschutzzaun?
+            </h3>
           </FormLabel>
           <FormControl>
             <RadioGroup
               {...field}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 justify-center"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center"
               onValueChange={(value) => {
                 console.log("RadioGroup Value Changed:", value);
                 field.onChange(value);
               }}
             >
-              {Object.entries(fenceOptions).map(([value, { imageSrc, label }]) => (
-                <RadioOption
+              {Object.entries(coverOptions).map(([value, { label }]) => (
+                <ButtonRadioOption
                   key={value}
                   value={value}
                   label={label}
                   selectedValue={selectedValue}
-                  imageSrc={imageSrc}
                 />
               ))}
             </RadioGroup>
           </FormControl>
+
+
+
           <FormMessage />
         </FormItem>
       )}

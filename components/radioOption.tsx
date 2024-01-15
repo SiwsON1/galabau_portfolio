@@ -13,7 +13,7 @@ interface RadioOptionProps {
   export const RadioOption = ({ value, label, selectedValue, colorCode, imageSrc }: RadioOptionProps) => {
     return (
       <div
-        className={`relative h-[150px] w-[240px]  border-2 rounded-md border-gray-300 cursor-pointer ${selectedValue === value ? "border-steelblue" : ""}`}
+        className={`relative h-[180px] w-[260px]  border-2 rounded-md border-gray-300 cursor-pointer ${selectedValue === value ? "border-steelblue" : ""}`}
         style={{ backgroundColor: colorCode }}
       >
         <RadioGroupItem
@@ -28,7 +28,7 @@ interface RadioOptionProps {
           style={{ position: "relative", overflow: "hidden" }}
         >
           {imageSrc && <Image src={imageSrc} alt={label} layout="fill" objectFit="cover" />}
-          <span className="absolute bottom-0 left-0 w-full text-center bg-white1 bg-opacity-75 py-1">{label}</span>
+          <span className="absolute bottom-0 left-0 w-full text-center bg-white bg-opacity-75 py-1">{label}</span>
         </label>
       </div>
     );

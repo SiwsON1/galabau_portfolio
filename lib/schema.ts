@@ -4,12 +4,12 @@ export const FormDataSchema = z
   .object({
     drahtstaerke: z.string().min(1, "Bitte wählen Sie eine Drahtstärke aus"),
     fenceSize: z.string().min(1, "Die minimale Größe beträgt 0.63m"),
-    fenceCover: z.string().min(1, "Bitte wählen Sie eine Fencetype aus"),
     length: z
       .string()
       .min(1, "Bitte geben Sie eine Höhe an")
       .regex(/^\d+(\.\d{1,2})?$/, "Bitte geben Sie eine gültige Zahl ein"),
     color: z.string().min(1, "Bitte wählen Sie eine Farbe aus"),
+    fenceCover: z.string().min(1, "Bitte wählen Sie eine Option für den Sichtschutzzaun aus"),
     corner: z
       .string()
       .min(1, "Bitte geben Sie die Anzahl der Pfosten an")

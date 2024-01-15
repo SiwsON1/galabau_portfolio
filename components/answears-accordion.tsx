@@ -1,14 +1,30 @@
+"use client";
+
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion";
+  import React from "react";
 
+  import { motion } from "framer-motion";
+  import { fadeIn } from "@/variants";
   export function AnswearsAccordion() {
     return (
       <div className="flex flex-col items-center mt-10 py-10">
-        <h2 className="text-2xl font-semibold mt-10 mb-10">Häufig gestellte Fragen - Ihr Zaunkonfigurator</h2>
+        <motion.div
+          variants={fadeIn("down", 0.2)}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.2 }}
+          className="flex flex-col justify-center text-center mb-10 gap-y-8 mt-20"
+        >
+          <h1 className="text-5xl font-bold mb-3 leading-relaxed">
+            - Häufig gestellte Fragen -
+          </h1>
+
+        </motion.div>
         <Accordion type="single" collapsible className="w-3/4 mb-10">
           <AccordionItem value="item-1">
             <AccordionTrigger>Wird auch ein kostenloses Vor Ort Termin angeboten?</AccordionTrigger>

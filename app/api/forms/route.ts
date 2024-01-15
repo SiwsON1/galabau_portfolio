@@ -41,7 +41,13 @@ export async function POST(req: Request) {
       where: { name: data.fenceSize },
     });
     console.log("fenceSize:", fenceSize);
+    const corner = await db.corner.findFirst();
+    console.log("cooorner:", corner);
 
+
+    const fenceCover = await db.fenceCover.findFirst({
+      where: { name: data.fenceCover },
+    })
     const color = await db.color.findFirst({
       where: { name: data.color },
     });
@@ -63,7 +69,7 @@ export async function POST(req: Request) {
     }) : null;
     console.log("gate:", gate);
 
-    if (!drahtstaerke || !fenceSize || !color || !mounting || !delivery || (data.gateNeeded && !gate)) {
+    if (!drahtstaerke || !fenceSize || !color ||!corner|| !fenceCover|| !mounting || !delivery || (data.gateNeeded && !gate)) {
       throw new Error('Nie znaleziono wszystkich wymaganych elementów zamówienia.');
     }
 
@@ -76,6 +82,8 @@ export async function POST(req: Request) {
         colorId: color.id,
         totalPrice: data.price,
         length: data.length,
+        fenceCoverId:fenceCover.id,
+        cornerId: corner.id, // Dodaj to
         cornerAmount: data.corner,
         mountingId: mounting.id, // Zaktualizowano na mountingId
         deliveryId: delivery.id, // Zaktualizowano na deliveryId

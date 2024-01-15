@@ -20,7 +20,7 @@ const HeroBanner = () => {
         Sicherheit und Stil für Ihr Zuhause
       </h1>      <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
 
-      <h2 className="hidden md:block text-2xl md:text-3xl lg:text-4xl font-semibold text-white mb-10">Hochwertige Zäune und Tore – Maßgefertigt für Ihre Immobilie</h2>
+      <h2 className="hidden md:block text-2xl md:text-3xl lg:text-4xl font-semibold text-black mb-10">Hochwertige Zäune und Tore – Maßgefertigt für Ihre Immobilie</h2>
       <Button onClick={handleNavClick} size="oval" variant="blue">Entdecken Sie unsere Produkte</Button>
 
 

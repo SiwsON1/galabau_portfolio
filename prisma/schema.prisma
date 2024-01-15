@@ -130,9 +130,9 @@ model OrderItem {
   deliveryId     String      @default("default_delivery_id") // Dodano domyślną wartość
   gateId         String?      @default("default_gate_id") // Dodano domyślną wartość
   fenceCoverId   String   @default("domyslny_id_fence_cover") // Ustaw domyślny ID
-  fenceCover   FenceCover @relation(fields: [fenceCoverId], references: [id]) // Relacja do modelu FenceType
+  fenceCover   FenceCover? @relation(fields: [fenceCoverId], references: [id]) // Relacja do modelu FenceType
 
-  corner         Corner       @relation(fields: [cornerId], references: [id])
+  corner         Corner?       @relation(fields: [cornerId], references: [id])
   mounting       Mounting     @relation(fields: [mountingId], references: [id])
   delivery       Delivery     @relation(fields: [deliveryId], references: [id])
   gate           Gate?         @relation(fields: [gateId], references: [id])
@@ -145,7 +145,7 @@ model OrderItem {
   updatedAt      DateTime     @default(now()) @updatedAt
 
 
-    @@index([orderId])
+  @@index([orderId])
   @@index([drahtstaerkeId])
   @@index([fenceSizeId])
   @@index([colorId])
