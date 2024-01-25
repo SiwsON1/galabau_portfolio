@@ -42,9 +42,7 @@ const Home = async () => {
       <FormCard prices={combinedPrices} />
       <Gallery />
       <AnswearsAccordion />
-      <div className="hidden md:block">
         <ContactBubble />
-      </div>
     </>
   );
 };

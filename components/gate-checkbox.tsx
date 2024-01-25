@@ -15,7 +15,7 @@ export function GateCheck({ control }: { control: any }) {
             <FormControl>
               <label className="flex items-center">
                 <Input type="checkbox" {...field} className="form-checkbox h-5 w-5 text-blue-600" />
-                <h3 className="text-xl text-center text-anthracit1">Potrzebujesz bramy przesuwnej i/lub ogrodowej? </h3>
+                <h3 className="text-xl text-center text-anthracit1">Benötigen Sie ein Schiebe- und/oder Gartentor?</h3>
               </label>
             </FormControl>
             <FormMessage />
