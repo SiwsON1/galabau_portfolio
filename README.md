@@ -1,8 +1,8 @@
 # Galabau Darius Portfolio Website
 
-Welcome to the GitHub repository for **FenceCrafters**, a Next.js-based commercial application designed to showcase and serve as a portfolio for a company specializing in fencing, gates, and simple gardening services. This project represents our first foray into commercial application development with Next.js, focusing on delivering a comprehensive online presence for businesses in the outdoor construction and gardening industry.
+Welcome to the GitHub repository for **Fence Configurator**, a Next.js-based commercial application designed to showcase and serve as a portfolio for a company specializing in fencing, gates, and simple gardening services. This project represents our first foray into commercial application development with Next.js, focusing on delivering a comprehensive online presence for businesses in the outdoor construction and gardening industry.
 
-##https://galabau-darius.de/
+https://galabau-darius.de/
 
 ## About the Project
 
