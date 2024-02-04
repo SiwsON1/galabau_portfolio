@@ -10,52 +10,60 @@ import Link from "next/link";
 
 const AboutUs = () => {
   const isMobile = useMediaQuery({
-    query: '(max-width: 768px)',
+    query: "(max-width: 768px)",
   });
   const [ref, inView] = useInView({
     threshold: !isMobile ? 0.5 : undefined,
   });
   return (
     <section id="aboutUs" className="py-12 xl:pt-0 xl:pb-24" ref={ref}>
+      <motion.div
+        variants={fadeIn("down", 0.2)}
+        initial="hidden"
+        whileInView={"show"}
+        viewport={{ once: false, amount: 0.2 }}
+        className="flex flex-col justify-center text-center mb-10 gap-y-8 mt-20"
+      >
+        <h1 className="text-5xl font-bold mb-3 leading-relaxed">
+          - Über Uns -
+        </h1>
+      </motion.div>
       <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row">
-          <motion.div
-          variants={fadeIn('right', 0.4)}
-          initial='hidden'
-          whileInView={'show'}
-          viewport={{once: false, amount: 0.5}}
-           className="flex-1 relative mt-20">
+          <div className="flex-1 relative mt-20">
             <Image
               src={"/aboutus1.jpg"}
               width={659}
               height={921}
               alt="Zaun- und Torinstallation"
             />
-          </motion.div>
-          <div
-          className="xl:max-w-[470px]">
-            <h2 className="h2 mb-[40px]">Über Uns – Expertise trifft auf Präzision</h2>
+          </div>
+          <div className="xl:max-w-[470px] mt-20 ">
             <p className="mb-10 ">
-              Herzlich willkommen bei Galabu Darius, Ihrem Spezialisten für
-              Zaun- und Torinstallation sowie einfache Baggerarbeiten. Mit
-              umfassender Erfahrung und einem Auge für Qualität bin ich Ihr
-              Ansprechpartner für hochwertige Einfriedungen und Torlösungen.
-              Mein Angebot umfasst eine Vielzahl an Zaunsystemen, darunter der
-              beliebte Doppelstabmattenzaun in verschiedenen Höhen und Farben,
-              gefertigt aus erstklassigen Materialien. Neben Zäunen biete ich
-              passende Gartentore und Türen an, die perfekt auf Ihre Bedürfnisse
-              zugeschnitten sind. Ich verstehe, dass jedes Projekt einzigartig
-              ist, und biete daher maßgeschneiderte Lösungen an. Egal ob es um
-              die Montage eines neuen Zauns geht oder um kleinere Erdarbeiten
-              mit einem Mini-Bagger – ich garantiere eine professionelle und
-              effiziente Umsetzung Ihrer Projekte.
+              Unser Unternehmen, Garten und Landschaftsbau-Darius, wurde im Jahr
+              2020 gegründet und befindet sich in Grafeld. Wir sind
+              spezialisiert auf den Verkauf von doppelstabmattenzaun-Zäunen, die
+              Montage von Zäunen, Erdarbeiten mit Bagger und Radlader, sowie die
+              Verlegung von Dreinage, Kanalisations-und
+              Regenwasserabflussrohren. Unser Unternehmen bietet außerdem
+              Dienstleistungen wie Baumfällung, Wurzelentfernung und die
+              Abdichtung von Außenwänden gegen Feuchtigkeit an.
             </p>
-            <p className="mb-10 ">Die Zufriedenheit meiner Kunden liegt mir am Herzen. Deshalb lege ich großen Wert auf persönliche Beratung und individuelle Betreuung. Ich stehe Ihnen von Montag bis Freitag von 8 bis 18 Uhr zur Verfügung, um Ihre Fragen zu beantworten oder eine Bestellung aufzunehmen.
-
-Kontaktieren Sie mich gerne unter +49 1573 6978719 für eine Beratung oder um mehr über meine Dienstleistungen zu erfahren. Ich freue mich darauf, Sie bei Ihrem nächsten Zaun- oder Erdarbeitsprojekt unterstützen zu dürfen!</p>
+            <p className="mb-10 ">
+              Die Zufriedenheit meiner Kunden liegt mir am Herzen. Deshalb lege
+              ich großen Wert auf persönliche Beratung und individuelle
+              Betreuung. Ich stehe Ihnen von Montag bis Freitag von 8 bis 18 Uhr
+              zur Verfügung, um Ihre Fragen zu beantworten oder eine Bestellung
+              aufzunehmen. Kontaktieren Sie mich gerne unter +49 1573 6978719
+              für eine Beratung oder um mehr über meine Dienstleistungen zu
+              erfahren. Ich freue mich darauf, Sie bei Ihrem nächsten Zaun- oder
+              Erdarbeitsprojekt unterstützen zu dürfen!
+            </p>
             <Link href="https://www.facebook.com/profile.php?id=61553627408575">
-      <Button size="oval" variant="blue">Weitere Informationen</Button>
-      </Link>
+              <Button size="oval" variant="blue">
+                Weitere Informationen
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

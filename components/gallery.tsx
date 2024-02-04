@@ -35,6 +35,7 @@ const Gallery = () => {
             lassen Sie sich für Ihr nächstes Projekt inspirieren.
           </p>
         </motion.div>
+        <div className="flex justify-center">
         <div className="columns-1 gap-5 lg:gap-8 sm:columns-2 lg:columns-3 xl:columns-4 [&>div:not(:first-child)]:mt-5 lg:[&>div:not(:first-child)]:mt-8">
           {photos.map(({ id, imageSrc }, index) => (
             <div key={id} onClick={() => handleImageClick(index)} className="cursor-zoom-in">
@@ -47,6 +48,8 @@ const Gallery = () => {
             </div>
           ))}
         </div>
+        </div>
+
       </div>
 
       {lightboxOpen && (

@@ -46,6 +46,9 @@ import OrderCompletion from "./order-completion";
 import { GateCheck } from "./gate-checkbox";
 import { FenceCover } from "./wire-cover";
 import Loader from "./Loader";
+import { calculatePrice } from "@/lib/calculateprice";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
+
 
 interface FormProps {
   prices: CombinedPrices;
@@ -103,49 +106,30 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     [key: string]: { [key: string]: number[] };
   };
 
-  const calculatePrice = () => {
-    const formData = getValues();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  console.log("Klucz reCAPTCHA:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+
+  const calculateTotalPrice = () => {
+    const formData = getValues(); // Pobierz dane formularza
     console.log("Dane formularza:", formData);
 
-    // Używamy prices.standardPrices, aby znaleźć odpowiednią cenę
-    const selectedPrice = prices.standardPrices.find(
-      (price) =>
-        price.drahtstaerke.name === formData.drahtstaerke &&
-        price.color.name === formData.color &&
-        price.fenceSize.name === formData.fenceSize
-    );
+    // Przygotuj dane do obliczenia ceny
+    const standardPrices = prices.standardPrices;
+    const additionalPrices = {
+      corners: prices.additionalPrices.corners,
+      mountings: prices.additionalPrices.mountings,
+      deliveries: prices.additionalPrices.deliveries,
+      gates: prices.additionalPrices.gates
+    };
 
-    let basePrice = selectedPrice ? selectedPrice.price : 0;
-
-    // Dodawanie cen za wybrane dodatkowe elementy
-    const cornerPrice =
-      prices.additionalPrices.corners.find(
-        (corner) => corner.name === formData.corner
-      )?.price || 0;
-
-    const singleCornerPrice = prices.additionalPrices.corners[0]?.price || 0;
-    const totalCornerPrice = singleCornerPrice * parseInt(formData.corner || "0");
-
-    // Resetowanie dodatkowego kosztu montażu
-    let additionalMountingCost = 0;
-    console.log('Wybrany typ montażu:', formData.mounting);
-    if (formData.mounting === "type3") {
-      const length = parseFloat(formData.length || "0");
-      console.log('Długość:', length);
-      additionalMountingCost = (Math.ceil(length / 2.5) + 1) * 10;
-      console.log('Dodatkowy koszt montażu (type3):', additionalMountingCost);
-    } else {
-      console.log('Brak dodatkowego kosztu montażu dla typu:', formData.mounting);
-    }
-
-    // Kalkulacja łącznej ceny
-    const totalPrice = basePrice * parseFloat(formData.length || "0") + totalCornerPrice + additionalMountingCost;
+    // Wywołaj zaimportowaną funkcję calculatePrice
+    const totalPrice = calculatePrice(formData, { standardPrices }, additionalPrices);
     console.log('Łączna cena:', totalPrice);
 
     // Ustawienie końcowej ceny
     setPrice(totalPrice);
   };
-
   const delta = currentStep - previousStep;
 
   const form = useForm<Inputs>({
@@ -188,19 +172,30 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const gateNeeded = watch("gateNeeded");
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
+    // Jeśli brama nie jest potrzebna, ustaw wartość 'none'
     if (!data.gateNeeded) {
       data.gate = "none";
     }
 
+    // Wykonaj reCAPTCHA przed wysłaniem formularza
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not available");
+      toast.error("ReCAPTCHA verification failed");
+      return;
+    }
+
+    const gRecaptchaToken = await executeRecaptcha('submitForm');
+
     try {
-      const formDataWithPrice = { ...data, price };
+      // Dołącz token reCAPTCHA do danych formularza
+      const formDataWithCaptcha = { ...data, gRecaptchaToken, price };
 
       toast.success("Twoje zamówienie jest przetwarzane");
-      const formResponse = await axios.post("/api/forms", formDataWithPrice);
+      const formResponse = await axios.post("/api/forms", formDataWithCaptcha);
 
       if (formResponse.status === 200) {
         // Po pomyślnym przetworzeniu formularza, wysyłanie danych do API wysyłania e-maili
-        await axios.post("/api/sendEmail", formDataWithPrice);
+        await axios.post("/api/sendEmail", formDataWithCaptcha);
 
         toast.success("Zamówienie utworzone i e-mail wysłany");
         confetti.onOpen();
@@ -212,7 +207,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     } catch (error) {
       // Obsługa innych błędów (np. związanych z siecią)
       console.error("Błąd:", error);
-      toast.error("Wystąpił błąd");
+      toast.error("Wystąpił błąd podczas przetwarzania zamówienia");
     }
   };
   const drahtstaerke = watch("drahtstaerke");
@@ -224,7 +219,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
   useEffect(() => {
     // Wywołanie funkcji calculatePrice kiedykolwiek zmieniają się obserwowane wartości
-    calculatePrice();
+    calculateTotalPrice();
   }, [drahtstaerke, color, length, corner, fenceSize, mountingType]); // Dodaj zmienne jako zależności
 
   type FieldName = keyof Inputs;
@@ -312,14 +307,13 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
                 >
                   {index + 1}
                 </div>
-                <span className="text-sm font-medium ml-2 hidden lg:inline">
+                <span className="text-xs font-medium ml-2 hidden lg:inline">
                   {step.name}
                 </span>
               </div>
             </li>
           ))}
         </ol>
-        {/* Pokaż kropki na małych ekranach, ukryj na średnich i większych */}
         <div className="md:hidden flex space-x-1 justify-center">
           {steps.map((step, index) => (
             <div

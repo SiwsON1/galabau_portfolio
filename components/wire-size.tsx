@@ -33,8 +33,6 @@ export function WireSize({ control }: { control: any }) {
                 <SelectValue placeholder="Wählen Sie die Größe" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0.63">0.63m</SelectItem>
-                <SelectItem value="0.83">0.83m</SelectItem>
                 <SelectItem value="1.03">1.03m</SelectItem>
                 <SelectItem value="1.23">1.23m</SelectItem>
                 <SelectItem value="1.43">1.43m</SelectItem>

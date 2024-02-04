@@ -24,7 +24,7 @@ interface FormCardProps {
 const FormCard: React.FC<FormCardProps> = ({ prices }) => {
 
     return (
-        <section id="konfigurator" > {/* Dodajemy ref do sekcji */}
+        <section id="konfigurator" >
             <div className="mx-auto p-4 md:p-12 w-full">
             <motion.div
           variants={fadeIn("down", 0.2)}

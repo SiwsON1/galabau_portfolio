@@ -2,11 +2,12 @@ import React from 'react';
 
 export const SidebarRoutes = () => {
   const sidebarLinks = [
-    { href: "#", label: "Home" },
-    { href: "#gallery", label: "Gallery" },
-    { href: "#konfigurator", label: "Order Form" },
-    { href: "#aboutUs", label: "About Us" },
+    { href: "#", label: "Startseite" },
+    { href: "#gallery", label: "Galerie" },
+    { href: "#konfigurator", label: "Zaunkonfigurator" },
+    { href: "#aboutUs", label: "Über uns" },
   ];
+
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();

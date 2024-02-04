@@ -1,10 +1,25 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ToastProvider } from '@/components/providers/toaster-provider'
+import GoogleCaptchaWrapper from '@/components/providers/google-captcha-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+import { Lato, Montserrat  } from 'next/font/google';
+
+const lato = Lato({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'], // Określenie stylów (opcjonalne, jeśli chcesz więcej niż domyślny 'normal')
+  subsets: ['latin'], // Określenie podzbiorów
+  variable: '--font-lato', // Nazwa zmiennej CSS
+});
+
+const montserrat = Montserrat({
+  weight: ['400', '700'], // Dodanie wymaganej właściwości 'weight'
+  style: ['normal', 'italic'], // Określenie stylów
+  subsets: ['latin'], // Określenie podzbiorów
+  variable: '--font-montserrat', // Nazwa zmiennej CSS
+});
+
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,10 +33,13 @@ export default function Root1Layout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
+      <html lang="de">
+      <body className={`${montserrat.variable} ${lato.variable}  `}>
           <ToastProvider />
+          <GoogleCaptchaWrapper>
           {children}
+
+          </GoogleCaptchaWrapper>
         </body>
       </html>
     </ClerkProvider>

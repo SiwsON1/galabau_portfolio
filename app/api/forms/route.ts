@@ -1,16 +1,50 @@
 import { NextResponse } from "next/server";
+import axios from "axios";
 import { db } from "@/lib/db";
+import { getPrices } from "@/actions/get-prices";
+import { getAdditionalPrices } from "@/actions/get-additional-prices";
+import { calculatePrice } from "@/lib/calculateprice";
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
     console.log("Otrzymane dane z formularza:", data);
 
+    // Weryfikacja reCAPTCHA
+    const recaptchaToken = data.gRecaptchaToken;
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    const recaptchaResponse = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`,
+      {},
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+    if (!recaptchaResponse.data.success || recaptchaResponse.data.score < 0.5) {
+      return NextResponse.json({ success: false, message: 'Nieudana weryfikacja reCAPTCHA.' });
+    }
+
+    // Pobierz aktualne ceny
+    const extendedPrices = await getPrices();
+    const standardPrices = extendedPrices.map(ep => ({
+      id: ep.id,
+      drahtstaerke: ep.drahtstaerke,
+      fenceSize: ep.fenceSize,
+      color: ep.color,
+      price: ep.price
+    }));
+
+    const additionalPrices = await getAdditionalPrices();
+    const expectedPrice = calculatePrice(data, { standardPrices }, additionalPrices);
+
+    // Sprawdzenie zgodności ceny
+    if (data.price !== expectedPrice) {
+      throw new Error("Nieprawidłowa cena");
+    }
+
     // Znajdź lub utwórz klienta
     let customer = await db.customer.findUnique({
       where: { email: data.email },
     });
-
     if (!customer) {
       customer = await db.customer.create({
         data: {
@@ -32,48 +66,21 @@ export async function POST(req: Request) {
       },
     });
 
-    const drahtstaerke = await db.drahtstaerke.findFirst({
-      where: { name: data.drahtstaerke },
-    });
-    console.log("drahtstaerke:", drahtstaerke);
-
-    const fenceSize = await db.fenceSize.findFirst({
-      where: { name: data.fenceSize },
-    });
-    console.log("fenceSize:", fenceSize);
+    // Pobierz szczegółowe informacje do zamówienia
+    const drahtstaerke = await db.drahtstaerke.findFirst({ where: { name: data.drahtstaerke } });
+    const fenceSize = await db.fenceSize.findFirst({ where: { name: data.fenceSize } });
     const corner = await db.corner.findFirst();
-    console.log("cooorner:", corner);
+    const fenceCover = await db.fenceCover.findFirst({ where: { name: data.fenceCover } });
+    const color = await db.color.findFirst({ where: { name: data.color } });
+    const mounting = await db.mounting.findFirst({ where: { name: data.mounting } });
+    const delivery = await db.delivery.findFirst({ where: { name: data.delivery } });
+    const gate = data.gateNeeded ? await db.gate.findFirst({ where: { name: data.gate } }) : null;
 
-
-    const fenceCover = await db.fenceCover.findFirst({
-      where: { name: data.fenceCover },
-    })
-    const color = await db.color.findFirst({
-      where: { name: data.color },
-    });
-    console.log("color:", color);
-
-
-    const mounting = await db.mounting.findFirst({
-      where: { name: data.mounting },
-    });
-    console.log("mounting:", mounting);
-
-    const delivery = await db.delivery.findFirst({
-      where: { name: data.delivery },
-    });
-    console.log("delivery:", delivery);
-
-    const gate = data.gateNeeded ? await db.gate.findFirst({
-      where: { name: data.gate },
-    }) : null;
-    console.log("gate:", gate);
-
-    if (!drahtstaerke || !fenceSize || !color ||!corner|| !fenceCover|| !mounting || !delivery || (data.gateNeeded && !gate)) {
+    if (!drahtstaerke || !fenceSize || !color || !corner || !fenceCover || !mounting || !delivery || (data.gateNeeded && !gate)) {
       throw new Error('Nie znaleziono wszystkich wymaganych elementów zamówienia.');
     }
 
-    // Utwórz rekord OrderItem z ID zamiast wartości
+    // Utwórz rekord OrderItem
     const orderItem = await db.orderItem.create({
       data: {
         orderId: order.id,
@@ -82,16 +89,16 @@ export async function POST(req: Request) {
         colorId: color.id,
         totalPrice: data.price,
         length: data.length,
-        fenceCoverId:fenceCover.id,
-        cornerId: corner.id, // Dodaj to
+        fenceCoverId: fenceCover.id,
+        cornerId: corner.id,
         cornerAmount: data.corner,
-        mountingId: mounting.id, // Zaktualizowano na mountingId
-        deliveryId: delivery.id, // Zaktualizowano na deliveryId
-        gateId: gate?.id,         // Zaktualizowano na gateId
+        mountingId: mounting.id,
+        deliveryId: delivery.id,
+        gateId: gate?.id,
       },
     });
 
-    return NextResponse.json({ customer, order, orderItem });
+    return NextResponse.json({ success: true, customer, order, orderItem });
   } catch (error) {
     console.error("[Customer/Order/OrderItem]", error);
     return new NextResponse("Internal Server Error", { status: 500 });

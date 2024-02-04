@@ -42,19 +42,19 @@ const Navbar = () => {
   return (
     <div className={`w-full ${navFixed ? "bg-white shadow-md" : "bg-transparent"} fixed top-0 left-0 right-0 z-30 transition-all duration-300`}>
       <nav className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-6">
-        <span className={`text-xl font-bold ${textColorClass}`}>
-          <a href="#" onClick={handleNavClick}>Galabau Darius</a>
+        <span className={`text-2xl hover:opacity-70 font-bold font-montserrat  ${textColorClass}`}>
+          <a href="#" onClick={handleNavClick}>Galabau-Darius</a>
         </span>
-        <MobileSidebar />
-        <div className="hidden md:flex items-center">
-          <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
-            <a href="#gallery" onClick={handleNavClick}>Galerie</a>
+        <MobileSidebar navFixed={navFixed} />
+        <div className="hidden md:flex items-center font-lato">
+          <span className={`mx-2 text-lg hover:opacity-70 underline uppercase tracking-wider leading-5 underline-offset-4 font-extrabold italic ${textColorClass}`}>
+            <a href="#gallery" onClick={handleNavClick}>GALERIE</a>
           </span>
-          <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
-            <a href="#aboutUs" onClick={handleNavClick}>Über Uns</a>
+          <span className={`mx-2 text-lg hover:opacity-70 underline uppercase tracking-wider leading-5 underline-offset-4 font-extrabold italic ${textColorClass}`}>
+            <a href="#aboutUs" onClick={handleNavClick}>ÜBER UNS</a>
           </span>
-          <span className={`mx-2 text-lg hover:opacity-70 ${textColorClass}`}>
-            <a href="#konfigurator" onClick={handleNavClick}>Zaunkonfigurator</a>
+          <span className={`mx-2 text-lg hover:opacity-70 underline uppercase tracking-wider leading-5 underline-offset-4 font-extrabold italic ${textColorClass}`}>
+            <a href="#konfigurator" onClick={handleNavClick}>ZAUNKONFIGURATOR</a>
           </span>
           <UserButton afterSignOutUrl="/"/>
 
