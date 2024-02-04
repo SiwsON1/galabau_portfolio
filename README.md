@@ -1,34 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Galabau Darius Portfolio Website
 
-## Getting Started
+Welcome to the GitHub repository for **Fence Configurator**, a Next.js-based commercial application designed to showcase and serve as a portfolio for a company specializing in fencing, gates, and simple gardening services. This project represents our first foray into commercial application development with Next.js, focusing on delivering a comprehensive online presence for businesses in the outdoor construction and gardening industry.
 
-First, run the development server:
+https://galabau-darius.de/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## About the Project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+FenceCrafters is more than just a website; it's a full-featured platform that enables our clients to explore our extensive range of products and services, view our previous projects, and get an instant quote for their unique requirements. Built with Next.js, this application offers a seamless, fast, and responsive user experience, ensuring that potential customers can easily find the information they need and take the next step towards enhancing their outdoor spaces.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Key Features:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **About Us**: A detailed section where clients can learn more about our company, our values, and why we are the industry leaders in fencing and garden services.
+- **Gallery**: A visually appealing showcase of our completed projects, demonstrating our commitment to quality and the wide range of options available to our clients.
+- **Instant Quote Form**: A complex multi-step form that allows clients to specify their fencing needs, choose from various options, and get an instant estimate for their project. This interactive feature is designed to engage users and provide them with customized solutions.
+- **Admin Panel (Secured by Clerk)**: An admin dashboard secured with Clerk authentication, where orders and customer details can be managed efficiently. The panel allows for order status updates, including marking orders as started, in progress, or completed, ensuring a smooth workflow and excellent customer service.
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Next.js**: For building a highly performant and scalable server-rendered React application.
+- **Clerk**: For secure authentication and management of the admin panel.
+- **React**: Utilized for its component-based architecture.
+- **ShadcnUI ** and **Tailwind CSS**: For crafting responsive and aesthetically pleasing layouts.
