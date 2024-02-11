@@ -22,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { WireThickness } from "./wire-thickness-form";
 import { FormDataSchema } from "@/lib/schema";
 import { WireSize } from "./wire-size";
 import { WireLength } from "./wire-length";
@@ -48,6 +47,8 @@ import { FenceCover } from "./wire-cover";
 import Loader from "./Loader";
 import { calculatePrice } from "@/lib/calculateprice";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
+import { GateSize } from "./gate-size";
+import { GateWidth } from "./gate-width";
 
 
 interface FormProps {
@@ -73,8 +74,11 @@ const steps = [
     fields: ["mounting", "fenceCover"],
   },
   { id: "Schritt 3", name: "Maße", fields: ["length", "corner", "fenceSize"] },
-  { id: "Schritt 4", name: "Toranlage", fields: ["gate"] },
-  { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
+  {
+    id: "Schritt 4",
+    name: "Toranlage",
+    fields: ["gate", "gateNeeded", "gateSize", "gateWidth"],
+  },  { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
   { id: "Schritt 6", name: "Confirmation" },
   {
     id: "Schritt 7",
@@ -145,6 +149,8 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       gate: "",
       vorname: "",
       nachname: "",
+      gateSize: "",
+      gateWidth: "",
       email: "",
       emailConfirm: "",
       telefon: "",
@@ -180,7 +186,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     // Wykonaj reCAPTCHA przed wysłaniem formularza
     if (!executeRecaptcha) {
       console.log("Execute recaptcha not available");
-      toast.error("ReCAPTCHA verification failed");
+      toast.error("Die reCAPTCHA-Überprüfung ist fehlgeschlagen");
       return;
     }
 
@@ -190,24 +196,24 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       // Dołącz token reCAPTCHA do danych formularza
       const formDataWithCaptcha = { ...data, gRecaptchaToken, price };
 
-      toast.success("Twoje zamówienie jest przetwarzane");
+      toast.success("Ihre Bestellung wird bearbeitet");
       const formResponse = await axios.post("/api/forms", formDataWithCaptcha);
 
       if (formResponse.status === 200) {
         // Po pomyślnym przetworzeniu formularza, wysyłanie danych do API wysyłania e-maili
         await axios.post("/api/sendEmail", formDataWithCaptcha);
 
-        toast.success("Zamówienie utworzone i e-mail wysłany");
+        toast.success("Bestellung erstellt und E-Mail gesendet");
         confetti.onOpen();
         reset();
       } else {
         // Obsługa błędów odpowiedzi z API formularza
-        toast.error("Wystąpił błąd podczas przetwarzania formularza");
+        toast.error("Ein Fehler ist bei der Verarbeitung des Formulars aufgetreten");
       }
     } catch (error) {
       // Obsługa innych błędów (np. związanych z siecią)
-      console.error("Błąd:", error);
-      toast.error("Wystąpił błąd podczas przetwarzania zamówienia");
+      console.error("Fehler:", error);
+      toast.error("Ein Fehler ist bei der Verarbeitung Ihrer Bestellung aufgetreten");
     }
   };
   const drahtstaerke = watch("drahtstaerke");
@@ -267,6 +273,8 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   useEffect(() => {
     if (!gateNeeded) {
       setValue("gate", "none");
+      setValue("gateSize", "");
+      setValue("gateWidth", "");
     }
   }, [gateNeeded, setValue]);
 
@@ -376,18 +384,27 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
             </motion.div>
           )}
 
-          {currentStep === 3 && (
-            <motion.div
-              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <div className="flex flex-col items-center w-full  ">
-                <GateCheck control={control} />
-                {gateNeeded && <GateForm control={control} />}
-              </div>
-            </motion.div>
-          )}
+{currentStep === 3 && (
+  <motion.div
+    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+    animate={{ x: 0, opacity: 1 }}
+    transition={{ duration: 0.3, ease: "easeInOut" }}
+  >
+    <div className="flex flex-col items-center w-full">
+      <GateCheck control={control} />
+      {gateNeeded && (
+        <>
+          <GateForm control={control} />
+          {/* Użycie md:flex-row, aby na ekranach średnich i większych elementy były obok siebie, a domyślnie (na mniejszych ekranach) jeden pod drugim */}
+          <div className="flex flex-col md:flex-row justify-center gap-10 mt-10">
+            <GateSize control={control} />
+            <GateWidth control={control} />
+          </div>
+        </>
+      )}
+    </div>
+  </motion.div>
+)}
 
           {currentStep === 4 && (
             <motion.div

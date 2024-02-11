@@ -34,7 +34,6 @@ const ContactBubble = () => {
           <a href={`https://m.me/${facebookMessengerId}`} className="block mt-2">
             <Mail className="inline-block mr-2 text-blue-600" /><span className="hover:text-blue-600">Schreiben Sie uns eine Nachricht</span>
           </a>
-          {/* Dodanie opcji kontaktu przez WhatsApp z użyciem ikony PNG */}
 
         </div>
       )}

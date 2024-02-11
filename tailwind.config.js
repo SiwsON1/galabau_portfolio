@@ -96,7 +96,7 @@ module.exports = {
       },
     },
     backgroundImage:{
-      hero:'url(/bg16.jpg)',
+      hero:'url(/bg16.webp)',
       hero2:'url(/bg3.webp)',
     }
   },

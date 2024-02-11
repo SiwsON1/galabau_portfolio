@@ -8,8 +8,8 @@ export function WireMounting({ control }: { control: any }) {
   const selectedValue = watch("mounting");
 
   const mountingOptions = {
-    type3: { imageSrc: "/mocowanie_typ_3.jpg", label: "Pfostentyp 3" },
-    type4: { imageSrc: "/mocowanie_typ_4.jpg", label: "Pfostentyp 4" },
+    type3: { imageSrc: "/mocowanie_typ_3.webp", label: "Pfostentyp 3" },
+    type4: { imageSrc: "/mocowanie_typ_4.webp", label: "Pfostentyp 4" },
     // Dodaj więcej opcji, jeśli potrzebujesz
   };
 
@@ -19,9 +19,7 @@ export function WireMounting({ control }: { control: any }) {
       name="mounting"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">Pfostentyp</h3>
-          </FormLabel>
           <FormControl>
             <RadioGroup
               {...field}

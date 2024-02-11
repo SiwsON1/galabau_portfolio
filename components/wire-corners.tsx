@@ -15,11 +15,9 @@ export function WireCorners({ control }: { control: any }) {
       name="corner"
       render={({ field }) => (
         <FormItem className="flex flex-col w-full mt-10">
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1 ">
             Anzahl der Ecken
             </h3>
-          </FormLabel>
           <FormControl className="flex-1">
             <Input
               borderStyle="underline"

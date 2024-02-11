@@ -18,6 +18,8 @@ export const FormDataSchema = z
     delivery: z.string().min(1, "Bitte wählen Sie eine Lieferoption aus"),
     gate: z.string().optional(),
     gateNeeded: z.boolean().optional(),
+    gateWidth: z.string().min(1, "Bitte wählen Sie die Breite des Tores aus"),
+    gateSize: z.string().min(1, "Bitte wählen Sie die Größe des Tores aus"),
     vorname: z.string().min(1, "Bitte geben Sie einen Vornamen ein"),
     nachname: z.string().min(1, "Bitte geben Sie einen Nachnamen ein"),
     email: z
@@ -42,10 +44,10 @@ export const FormDataSchema = z
   })
   .refine((data) => {
     if (data.gateNeeded) {
-      return data.gate && data.gate.trim().length > 0;
+      return data.gate && data.gate.trim().length > 0 && data.gateWidth && data.gateWidth.trim().length > 0 && data.gateSize && data.gateSize.trim().length > 0;
     }
     return true;
   }, {
-    message: "Bitte wählen Sie einen Tor-Typ aus",
-    path: ["gate"],
+    message: "Bitte wählen Sie einen Tor-Typ und die entsprechenden Maße aus",
+    path: ["gate", "gateWidth", "gateSize"],
   });

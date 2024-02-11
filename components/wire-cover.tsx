@@ -19,11 +19,9 @@ export function FenceCover({ control }: { control: any }) {
       name="fenceCover"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">
               Benötigen Sie einen Sichtschutzzaun?
             </h3>
-          </FormLabel>
           <FormControl>
             <RadioGroup
               {...field}

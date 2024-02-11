@@ -95,6 +95,8 @@ export async function POST(req: Request) {
         mountingId: mounting.id,
         deliveryId: delivery.id,
         gateId: gate?.id,
+        gateSize: data.gateSize, // Dodane pole gateSize
+    gateWidth: data.gateWidth, // Dodane pole gateWidth
       },
     });
 

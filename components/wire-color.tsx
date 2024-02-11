@@ -20,11 +20,9 @@ export function WireMountingColor({ control }: { control: any }) {
       name="color"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">
               Die passende Farbe
             </h3>
-          </FormLabel>
           <FormControl>
             <RadioGroup
               {...field}

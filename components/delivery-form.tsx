@@ -8,9 +8,9 @@ export function DeliveryForm({ control }: { control: any }) {
   const selectedValue = watch("delivery");
 
   const deliveryOptions = {
-    delivery: { imageSrc: "/delivery.jpg", label: "Lieferung" },
-    montage: { imageSrc: "/montage.jpg", label: "Montage" },
-    abholung: { imageSrc: "/abholung.png", label: "Abholung" },
+    delivery: { imageSrc: "/delivery.webp", label: "Lieferung" },
+    montage: { imageSrc: "/montage.webp", label: "Montage" },
+    abholung: { imageSrc: "/abholung.webp", label: "Abholung" },
   };
 
   return (
@@ -19,11 +19,9 @@ export function DeliveryForm({ control }: { control: any }) {
       name="delivery"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">
               Lieferung oder Montage?
             </h3>
-          </FormLabel>
 
           <FormControl>
             <RadioGroup
@@ -49,7 +47,7 @@ export function DeliveryForm({ control }: { control: any }) {
             </RadioGroup>
           </FormControl>
 
-          <FormMessage /> {/* Dodaj FormMessage tutaj */}
+          <FormMessage />
         </FormItem>
       )}
     />

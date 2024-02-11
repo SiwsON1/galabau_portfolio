@@ -19,11 +19,9 @@ export function WireThickness1({ control }: { control: any }) {
       name="drahtstaerke"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">
               Drahtstärke
             </h3>
-          </FormLabel>
           <FormControl>
             <RadioGroup
               {...field}

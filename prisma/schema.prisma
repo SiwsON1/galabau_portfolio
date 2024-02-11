@@ -136,6 +136,8 @@ model OrderItem {
   mounting       Mounting     @relation(fields: [mountingId], references: [id])
   delivery       Delivery     @relation(fields: [deliveryId], references: [id])
   gate           Gate?         @relation(fields: [gateId], references: [id])
+  gateSize       String?     // Nowe pole dla szerokości bramy
+  gateWidth      String?     // Nowe pole dla szerokości bramy
 
   order          Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
   drahtstaerke   Drahtstaerke @relation(fields: [drahtstaerkeId], references: [id])

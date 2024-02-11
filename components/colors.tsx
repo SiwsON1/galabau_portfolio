@@ -15,7 +15,7 @@ export function WireThickness5({ control }: { control: any }) {
       name="color"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Farba</FormLabel>
+          <h3>Farba</h3>
           <RadioGroup
             {...field}
             defaultValue="feuerverzinkt"

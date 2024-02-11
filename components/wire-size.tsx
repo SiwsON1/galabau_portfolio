@@ -19,11 +19,9 @@ export function WireSize({ control }: { control: any }) {
       name="fenceSize"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>
             <h3 className="text-xl text-center text-anthracit1">
               Größe des Zauns (in Metern)
             </h3>
-          </FormLabel>
           <FormControl>
             <Select
               onValueChange={field.onChange}

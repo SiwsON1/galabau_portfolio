@@ -8,10 +8,8 @@ export function GateForm({ control }: { control: any }) {
   const selectedValue = watch("gate");
 
   const gateOptions = {
-    type1: { imageSrc: "/Einflüglige Toranlage System AC-Typ Light 1.webp", label: "Einflüglige Toranlage System AC-Typ Light 1" },
-    type2: { imageSrc: "/Einflüglige Toranlage System AC-Typ MRL 1.webp", label: "Einflüglige Toranlage System AC-Typ MRL 1" },
-    type3: { imageSrc: "/srl2.webp", label: "Zweiflüglige Toranlage System AC-Typ SRL 2" },
-    type4: { imageSrc: "/srl1.webp", label: "Einflüglige Toranlage System AC-Typ SRL 1" },
+    type1: { imageSrc: "/Einflüglige Toranlage.png", label: "Einflüglige Toranlage" },
+    type2: { imageSrc: "/Zweiflüglige Toranlage.png", label: "Zweiflüglige Toranlage" },
     // Dodaj więcej opcji, jeśli potrzebujesz
   };
 
@@ -21,7 +19,7 @@ export function GateForm({ control }: { control: any }) {
       name="gate"
       render={({ field }) => (
         <FormItem>
-          <FormLabel><h3 className="text-xl text-center text-anthracit1">Toranlage</h3></FormLabel>
+          <h3 className="text-xl text-center text-anthracit1">Toranlage</h3>
           <FormControl>
             <RadioGroup
               {...field}

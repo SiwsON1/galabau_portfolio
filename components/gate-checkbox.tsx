@@ -9,9 +9,7 @@ export function GateCheck({ control }: { control: any }) {
         name="gateNeeded"
         render={({ field }) => (
           <FormItem className="relative focus-within:text-blue1 my-8">
-                  <FormLabel>
                   <h3 className="text-xl text-center text-anthracit1">Toranlage </h3>
-          </FormLabel>
             <FormControl>
               <label className="flex items-center">
                 <Input type="checkbox" {...field} className="form-checkbox h-5 w-5 text-blue-600" />
