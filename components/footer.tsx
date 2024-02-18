@@ -23,7 +23,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-x-3">
                 <Mail className="text-steelblue" />
-                <div>kontakt@nazwafirmy.com</div>
+                <div>kontakt@galabau-darius.de</div>
               </div>
             </div>
           </div>

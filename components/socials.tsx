@@ -7,8 +7,8 @@ interface SocialsProps {
 }
 
 const Socials = ({ containerStyles }: SocialsProps) => {
-  const facebookMessengerId = '5535629916550981'; // Zmień na właściwy identyfikator
-  const phoneNumber = '519051781'; // Zmień na właściwy numer telefonu
+  const facebookMessengerId = '100091680060282'; // Zmień na właściwy identyfikator
+  const phoneNumber = '+49 1573 6978719'; // Zmień na właściwy numer telefonu
 
   return (
     <ul className={`${containerStyles}`}>

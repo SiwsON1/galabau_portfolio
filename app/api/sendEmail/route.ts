@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         // Email do administratora
         const mailToAdmin = {
             from: 'galabaudarius@gmail.com',
-            to: 'galabaudarius@gmail.com', // Adres e-mail administratora
+            to: 'kontakt@galabau-darius.de',
             subject: "Neue Anfrage erhalten",
             html: adminEmailTemplate
         };

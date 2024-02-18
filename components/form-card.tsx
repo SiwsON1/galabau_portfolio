@@ -15,7 +15,6 @@ import { motion } from "framer-motion";
 import { fadeIn } from "@/variants";
 import { ExtendedPrice } from "@/actions/get-prices";
 import { CombinedPrices } from "@/app/(main)/page";
-import { ConfettiProvider } from "./providers/confetti-provider";
 
 interface FormCardProps {
   prices: CombinedPrices;

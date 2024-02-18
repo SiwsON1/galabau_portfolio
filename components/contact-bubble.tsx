@@ -5,15 +5,15 @@ import Image from 'next/image';
 
 const ContactBubble = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const facebookMessengerId = '100003120825478';
+  const facebookMessengerId = '100091680060282';
   const phoneNumber = '+49 1573 6978719';
-  const whatsappNumber = '+48 883 603 936'; // Numer WhatsApp
+  const whatsappNumber = '+49 1573 6978719';
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`; // Usuwa znak plus dla linku
+  const whatsappLink = `https://wa.me/${whatsappNumber.replace(/\+/g, '')}`; 
 
   return (
     <>
