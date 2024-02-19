@@ -13,6 +13,8 @@ import { ExtendedPrice } from "@/actions/get-prices";
 import { ExtendedAdditionalPrice, getAdditionalPrices } from "@/actions/get-additional-prices";
 import ContactBubble from "@/components/contact-bubble";
 import { AnswearsAccordion } from "@/components/answears-accordion";
+import FormCard from "@/components/form-card";
+import Gallery from "@/components/gallery";
 
 
 
@@ -25,14 +27,8 @@ interface HomeProps {
   prices: CombinedPrices;
 }
 
-const Gallery = dynamic(() => import('@/components/gallery'), {
-  loading: () => <p>Laden...</p>,
-  ssr: false
-});
-const FormCard = dynamic(() => import('@/components/form-card'), {
-  loading: () => <p>Laden...</p>, // Możesz dostosować tekst ładowania
-  ssr: false // Jeśli chcesz, aby ładowanie odbywało się tylko po stronie klienta
-});
+
+
 
 const Home = async () => {
   const prices = await getPrices();
