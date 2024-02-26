@@ -10,6 +10,7 @@ export default function MainLayout({
 }) {
   return (
     <div className="h-full">
+
       <div className="fixed mx-auto z-50">
         <Navbar />
       </div>

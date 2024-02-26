@@ -1,6 +1,6 @@
 "use client";
 
-import {  BookA, Compass, Layout, User } from "lucide-react";
+import {  BookA, DollarSign, Layout, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -20,6 +20,11 @@ const sidebarRoutes = [
     icon: User,
     label: "Customers",
     href: "/admin/customers",
+  },
+  {
+    icon: DollarSign,
+    label: "Prices",
+    href: "/admin/prices",
   },
 ];
 

@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import { Button } from "./ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm, SubmitHandler, FieldName } from "react-hook-form";
@@ -8,25 +6,11 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FormDataSchema } from "@/lib/schema";
 import { WireSize } from "./wire-size";
 import { WireLength } from "./wire-length";
 import { WireThickness1 } from "./wire-thicknes-form-3";
-import { WireThickness5 } from "./colors";
 import { WireCorners } from "./wire-corners";
 import { UserForm } from "./user-form";
 import { WireMounting } from "./wire-mounting";
@@ -40,7 +24,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { ExtendedPrice } from "@/actions/get-prices";
 import { CombinedPrices } from "@/app/(main)/page";
-import { useConfettiStore } from "@/hooks/use-confetti-store";
 import OrderCompletion from "./order-completion";
 import { GateCheck } from "./gate-checkbox";
 import { FenceCover } from "./wire-cover";
@@ -103,7 +86,6 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [price, setPrice] = useState(0);
-  const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
 
   type PriceList = {
@@ -112,7 +94,6 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  console.log("Klucz reCAPTCHA:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
 
   const calculateTotalPrice = () => {
     const formData = getValues(); // Pobierz dane formularza
@@ -122,13 +103,10 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
     const standardPrices = prices.standardPrices;
     const additionalPrices = {
       corners: prices.additionalPrices.corners,
-      mountings: prices.additionalPrices.mountings,
-      deliveries: prices.additionalPrices.deliveries,
-      gates: prices.additionalPrices.gates
     };
 
     // Wywołaj zaimportowaną funkcję calculatePrice
-    const totalPrice = calculatePrice(formData, { standardPrices }, additionalPrices);
+    const totalPrice = calculatePrice(formData, { standardPrices });
     console.log('Łączna cena:', totalPrice);
 
     // Ustawienie końcowej ceny
@@ -204,7 +182,6 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
         await axios.post("/api/sendEmail", formDataWithCaptcha);
 
         toast.success("Bestellung erstellt und E-Mail gesendet");
-        confetti.onOpen();
         reset();
       } else {
         // Obsługa błędów odpowiedzi z API formularza
@@ -395,7 +372,6 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       {gateNeeded && (
         <>
           <GateForm control={control} />
-          {/* Użycie md:flex-row, aby na ekranach średnich i większych elementy były obok siebie, a domyślnie (na mniejszych ekranach) jeden pod drugim */}
           <div className="flex flex-col md:flex-row justify-center gap-10 mt-10">
             <GateSize control={control} />
             <GateWidth control={control} />

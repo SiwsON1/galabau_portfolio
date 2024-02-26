@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     }));
 
     const additionalPrices = await getAdditionalPrices();
-    const expectedPrice = calculatePrice(data, { standardPrices }, additionalPrices);
+    const expectedPrice = calculatePrice(data, { standardPrices });
 
     // Sprawdzenie zgodności ceny
     if (data.price !== expectedPrice) {
