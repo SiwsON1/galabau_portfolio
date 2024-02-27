@@ -23,7 +23,6 @@ import { OrderSummary } from "./order-summary";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ExtendedPrice } from "@/actions/get-prices";
-import { CombinedPrices } from "@/app/(main)/page";
 import OrderCompletion from "./order-completion";
 import { GateCheck } from "./gate-checkbox";
 import { FenceCover } from "./wire-cover";
@@ -32,6 +31,7 @@ import { calculatePrice } from "@/lib/calculateprice";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
 import { GateSize } from "./gate-size";
 import { GateWidth } from "./gate-width";
+import { CombinedPrices } from "@/app/(main)/page";
 
 
 interface FormProps {

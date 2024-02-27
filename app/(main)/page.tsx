@@ -2,7 +2,6 @@ import AboutUs from "@/components/aboutUs";
 import Featured from "@/components/featured";
 import HeroBanner from "@/components/hero";
 import { getPrices } from "@/actions/get-prices";
-import dynamic from 'next/dynamic';
 
 // Import ExtendedPrice
 import { ExtendedPrice } from "@/actions/get-prices";
@@ -10,6 +9,7 @@ import { ExtendedAdditionalPrice, getAdditionalPrices } from "@/actions/get-addi
 import ContactBubble from "@/components/contact-bubble";
 import { AnswearsAccordion } from "@/components/answears-accordion";
 import FormCard from "@/components/form-card";
+import Gallery from "@/components/gallery";
 
 
 
@@ -22,10 +22,6 @@ interface HomeProps {
   prices: CombinedPrices;
 }
 
-const Gallery = dynamic(() => import('@/components/gallery'), {
-  loading: () => <p>Laden...</p>,
-  ssr: false
-});
 
 
 
