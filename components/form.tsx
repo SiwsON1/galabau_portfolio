@@ -4,40 +4,41 @@ import { motion } from "framer-motion";
 import { useForm, SubmitHandler, FieldName } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { FormDataSchema } from "@/lib/schema";
-import { WireSize } from "./wire-size";
-import { WireLength } from "./wire-length";
+
 import { WireThickness1 } from "./wire-thicknes-form-3";
-import { WireCorners } from "./wire-corners";
-import { UserForm } from "./user-form";
-import { WireMounting } from "./wire-mounting";
+
 import { ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
-import { WireMountingColor } from "./wire-color";
-import { DeliveryForm } from "./delivery-form";
-import { GateForm } from "./gate-form";
+
 import { useEffect } from "react";
-import { OrderSummary } from "./order-summary";
+
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ExtendedPrice } from "@/actions/get-prices";
-import OrderCompletion from "./order-completion";
-import { GateCheck } from "./gate-checkbox";
-import { FenceCover } from "./wire-cover";
+
 import Loader from "./Loader";
 import { calculatePrice } from "@/lib/calculateprice";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3"
-import { GateSize } from "./gate-size";
-import { GateWidth } from "./gate-width";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
 import { CombinedPrices } from "@/app/(main)/page";
+import dynamic from "next/dynamic";
+import { UserForm } from "./user-form";
+import OrderCompletion from "./order-completion";
+
+const StepWireThickness = dynamic(() => import("./form-step-1"));
+const StepWireMounting = dynamic(() => import("./form-step-2"));
+const StepWireLength = dynamic(() => import("./form-step-3"));
+const StepWireGate = dynamic(() => import("./form-step-4"));
+const StepWireDelivery = dynamic(() => import("./form-step-5"));
+const StepOrderSummary = dynamic(() => import('./form-step-6'));
+
 
 
 interface FormProps {
   prices: CombinedPrices;
 }
-type Inputs = z.infer<typeof FormDataSchema>;
+export type Inputs = z.infer<typeof FormDataSchema>;
 
 type Step = {
   id: string;
@@ -61,7 +62,8 @@ const steps = [
     id: "Schritt 4",
     name: "Toranlage",
     fields: ["gate", "gateNeeded", "gateSize", "gateWidth"],
-  },  { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
+  },
+  { id: "Schritt 5", name: "Lieferung", fields: ["delivery"] },
   { id: "Schritt 6", name: "Confirmation" },
   {
     id: "Schritt 7",
@@ -94,7 +96,6 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-
   const calculateTotalPrice = () => {
     const formData = getValues(); // Pobierz dane formularza
     console.log("Dane formularza:", formData);
@@ -107,7 +108,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
 
     // Wywołaj zaimportowaną funkcję calculatePrice
     const totalPrice = calculatePrice(formData, { standardPrices });
-    console.log('Łączna cena:', totalPrice);
+    console.log("Łączna cena:", totalPrice);
 
     // Ustawienie końcowej ceny
     setPrice(totalPrice);
@@ -168,7 +169,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
       return;
     }
 
-    const gRecaptchaToken = await executeRecaptcha('submitForm');
+    const gRecaptchaToken = await executeRecaptcha("submitForm");
 
     try {
       // Dołącz token reCAPTCHA do danych formularza
@@ -185,12 +186,16 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
         reset();
       } else {
         // Obsługa błędów odpowiedzi z API formularza
-        toast.error("Ein Fehler ist bei der Verarbeitung des Formulars aufgetreten");
+        toast.error(
+          "Ein Fehler ist bei der Verarbeitung des Formulars aufgetreten"
+        );
       }
     } catch (error) {
       // Obsługa innych błędów (np. związanych z siecią)
       console.error("Fehler:", error);
-      toast.error("Ein Fehler ist bei der Verarbeitung Ihrer Bestellung aufgetreten");
+      toast.error(
+        "Ein Fehler ist bei der Verarbeitung Ihrer Bestellung aufgetreten"
+      );
     }
   };
   const drahtstaerke = watch("drahtstaerke");
@@ -322,10 +327,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <div className="flex flex-col gap-y-10 items-center ">
-                <WireThickness1 control={control} />
-                <WireMountingColor control={control} />
-              </div>
+              <StepWireThickness control={control} />
             </motion.div>
           )}
           {currentStep === 1 && (
@@ -334,10 +336,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <div className="flex flex-col gap-y-10 items-center justify-center">
-                <FenceCover control={control} />
-                <WireMounting control={control} />
-              </div>
+              <StepWireMounting control={control} />
             </motion.div>
           )}
           {currentStep === 2 && (
@@ -346,41 +345,20 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              {/* Kontener na WireSize i WireCorners */}
-              <div className="flex flex-col items-center justify-center w-full gap-10 p-10">
-                <div className="w-full md:w-3/4 lg:w-1/4 mx-auto">
-                  <WireLength control={control} />
-                  <WireCorners control={control} />
-                </div>
-              </div>
-
-              {/* WireLength pod WireSize i WireCorners */}
-              <div className="w-full md:w-3/4 lg:w-1/4 mx-auto p-10">
-                <WireSize control={control} />
-              </div>
+                <StepWireLength control={control} />
             </motion.div>
           )}
 
-{currentStep === 3 && (
-  <motion.div
-    initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-    animate={{ x: 0, opacity: 1 }}
-    transition={{ duration: 0.3, ease: "easeInOut" }}
-  >
-    <div className="flex flex-col items-center w-full">
-      <GateCheck control={control} />
-      {gateNeeded && (
-        <>
-          <GateForm control={control} />
-          <div className="flex flex-col md:flex-row justify-center gap-10 mt-10">
-            <GateSize control={control} />
-            <GateWidth control={control} />
-          </div>
-        </>
-      )}
-    </div>
-  </motion.div>
-)}
+          {currentStep === 3 && (
+            <motion.div
+              initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+    <StepWireGate control={control} gateNeeded={gateNeeded} />
+
+            </motion.div>
+          )}
 
           {currentStep === 4 && (
             <motion.div
@@ -388,9 +366,8 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <div className="flex flex-col items-center  w-full  ">
-                <DeliveryForm control={control} />
-              </div>
+                <StepWireDelivery control={control} />
+
             </motion.div>
           )}
           {currentStep === 5 && (
@@ -400,7 +377,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <div className="flex  items-center justify-center">
-                <OrderSummary price={price} formData={getValues()} />
+                <StepOrderSummary price={price} formData={getValues()} />
               </div>
             </motion.div>
           )}
@@ -411,11 +388,7 @@ const FenceForm: React.FC<FormProps> = ({ prices }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              {isLoading ? (
-                <Loader />
-              ) : (
-                <UserForm control={control} />
-              )}
+              {isLoading ? <Loader /> : <UserForm control={control} />}
             </motion.div>
           )}
 
